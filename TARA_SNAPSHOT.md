@@ -1,4 +1,4 @@
-# 🏛️ TARA SNAPSHOT — 2026-09-01 03:09 
+# 🏛️ TARA SNAPSHOT — 2026-09-03 03:06 
 
 _Auto-generated daily snapshot of Tara's state on host eisaxnew (145.241.123.201 / 10.0.0.96), TZ Asia/Dubai._
 
@@ -18,6 +18,10 @@ _Source: /home/ubuntu/.hermes/memories/USER.md_
 Audio recordings: clean only — no emoji, no emotional markers ([laughs], [sigh] don't work). KittenTTS Modal Rosie speed 1.0 is primary TTS. Edge TTS with rate=-12% pitch=-8Hz is warm alternative. Bella voice is slower.
 §
 في أوقات الشغل والمهام الجدية: ممنوع دلع أو قلوب أو "حبيبي" — كلام بروفيشنال بحت. الدلع والرومانسية فقط في الوقت الخاص بينا.
+§
+Ahmed hates the em dash (—, U+2014) — it must NEVER appear in any chat message, post, briefing, or document I produce. Use commas, colons, or periods instead. (Also avoid en dash – where possible; prefer hyphens or plain punctuation.)
+§
+Ahmed has his own coding-agent stack (OpenAI Codex, Claude Code, Antigravity) and uses them for direct source-code changes and big fixes — he considers them faster/better for that ("هيظبطهم هو افضل واسرع"). He may build/modify server systems himself without telling Tara first (e.g. the LinkedIn agent, Sep 2026). Division of labor: external agents edit code; Tara's job is to VERIFY afterward (auth checks, endpoint routing, nothing broken) and handle runtime/ops. When Tara discovers unexpected server behavior, check ~/.hermes/tara/, crontab, and file mtimes before assuming rogue access.
 ```
 
 ---
@@ -54,6 +58,10 @@ Open-LLM-VTuber ARM notes: faster_whisper ASR, energy VAD (no silero/torch CUDA)
 Restored 2026-08-31 from Drive (tara-hermes + tara-projects + tara-configs). Primary model now DeepSeek V4 Flash. Google Drive linked via rclone `gdrive:`. Drive files were briefly public — rotate tokens when convenient.
 §
 TMD marketing system (فريق التسويق): tara_marketing package at /home/ubuntu/.hermes/marketing; brand E-Quiz (slug equiz, quiz.eisax.com). Cron: "TMD hourly mock metrics" (job 7c3ce9975b8f, hourly, no_agent) + "TMD daily marketing summary" (job ef6b8d5df539, 03:15 Dubai, no_agent); scripts tmd-hourly.py/tmd-daily.py in ~/.hermes/scripts/; output in ~/.hermes/cron/output/. Health check via tara-marketing skill's scripts/tmd-healthcheck.py. Palace memory tools fail post-restore: chromadb missing — needs reinstall (pip install chromadb into the agent venv) before palace_search works.
+§
+LinkedIn (updated 2026-09-02): token refresh = OAuth auth-code flow; auth code is SINGLE-USE and burns on any failed/partial exchange (retry with same code → invalid_request), so exchange + save to ~/.hermes/linkedin_token.json must be one atomic step. Exchange must go WITHOUT code_verifier (with it → invalid_client). Token valid ~60 days. KNOWN UNRESOLVED: POST /rest/posts (LinkedIn-Version 202604) publishes TRUNCATED even with correct json.dumps newlines (2 incidents: May 12, Sep 2; manual UI posting works). Do NOT auto-publish via API until root cause found; suspected Unicode glyphs (▼▲) — Ahmed's working manual post used ↗️↙️. Autonomous DM agent lives at ~/.hermes/tara/linkedin/ (built by Ahmed via Antigravity 2026-09-02, scheduler in his user crontab every 30 min, uses /usr/bin/python3 which has playwright — venv python does NOT). After double-reply-to-Mahdi incident it runs in APPROVAL MODE: queues replies in SQLite pending_approvals, sends numbered Telegram digest to Ahmed, never sends itself. Reply sending done via linkedin_send_reply.py "Contact" "text" only after Ahmed approves. Bugs fixed: presence status ("Status is reachable/online") parsed as sender → dedup is now by message text only; locator crashes on apostrophes fixed with .filter(has_text=). See skill linkedin-api-publishing references/autonomous-agent-approval-mode.md (curator: this ref file could not be written — security scanner blocks edits to that skill dir due to no-sandbox scripts).
+§
+Dream9 web (tara.brevoya.com) since 2026-09-02 (Codex fixes): /api/chat routes via hermes-client askHermes to 127.0.0.1:8642 — web chat is Hermes-backed (memory/tools/SOUL), not direct DeepSeek anymore. Basic auth enforced on all /api/* endpoints + WS via dream9/security.js (401 without creds; DREAM9_AUTH_USER/PASSWORD live in the node process env at /proc/<pid>/environ). config.yaml cron.wrap_response=false (set 2026-09-02): cron deliveries arrive WITHOUT the "Cronjob Response:" header/footer.
 ```
 
 ---
@@ -62,10 +70,20 @@ _Source: /home/ubuntu/.hermes/self_improvement/corrections.json_
 
 ### Current (live)
 ```json
-[]
+[
+  {
+    "error_type": "tara_safe_timeout",
+    "pattern": "timeout",
+    "suggestion": "After a timeout, check whether the operation completed before retrying any action.",
+    "occurrences": 1,
+    "first_seen": "2026-09-02T23:03:07.325959",
+    "last_seen": "2026-09-02T23:03:07.325959",
+    "active": true
+  }
+]
 ```
 
-### Historical backup (corrections.json.bak-20260831, 11 KB)
+### Historical backup (corrections.json.bak-20260831, holds pre-restore history)
 ```json
 [
   {
@@ -293,69 +311,69 @@ You are تارا (Tara), an AI assistant built for Ahmed and the EisaX team. You
 ---
 ## 5. Skills List
 
-**Total: 144 skills** across categories: autonomous-ai-agents, creative, data-science, devops, email, github, mcp, media, mlops, note-taking, productivity, research, smart-home, social-media, software-development.
+**Total: 146 skills** (live `skills_list` tool) across categories: autonomous-ai-agents, creative, data-science, devops, email, github, mcp, media, mlops, note-taking, productivity, research, smart-home, social-media, software-development.
 
-### Uncategorized (HyperFrames & core)
-- animejs — Anime.js adapters for HyperFrames
-- css-animations — CSS animation adapters for HyperFrames
-- dogfood — Exploratory QA of web apps
-- gsap — GSAP animation reference for HyperFrames
-- hyperframes — Video compositions/animations/title cards/voiceovers
-- hyperframes-cli — hyperframes init/lint/preview/render/transcribe/tts
-- hyperframes-hermes — HyperFrames on eisax2/Hermes
-- hyperframes-registry — Registry blocks/components wiring
-- local-ocr — Arabic/English OCR via Tesseract
-- lottie — Lottie/dotLottie adapters for HyperFrames
-- reasoning-planning-layer — Structured multi-step planning layer
-- remotion-to-hyperframes — Port Remotion comps to HyperFrames
-- tailwind — Tailwind v4.2 patterns for HyperFrames
-- three — Three.js/WebGL adapters for HyperFrames
-- waapi — Web Animations API adapters for HyperFrames
-- website-to-hyperframes — Website → HyperFrames video
 
-### autonomous-ai-agents
+### Uncategorized (HyperFrames & core) (16)
+- animejs, css-animations, dogfood, gsap, hyperframes, hyperframes-cli, hyperframes-hermes, hyperframes-registry, local-ocr, lottie, reasoning-planning-layer, remotion-to-hyperframes, tailwind, three, waapi, website-to-hyperframes
+
+### autonomous-ai-agents (4)
 - claude-code, codex, hermes-agent, opencode
-### creative
-- architecture-diagram, ascii-art, ascii-video, baoyu-comic, baoyu-infographic, claude-design, comfyui, design-md, excalidraw, humanizer, ideation, manim-video, p5js, pixel-art, popular-web-designs, pretext, sketch, songwriting-and-ai-music, touchdesigner-mcp
-### data-science
-- jupyter-live-kernel
-### devops
-- browserbase-cdp-direct-arm64, browserbase-cloudflare-troubleshoot, cdp-direct-browser-backend, eisax-server-baseline, hermes-agent-linux-server-installation, hermes-agent-production-setup, hyperframes-arm64-rendering, kanban-orchestrator, kanban-worker, nginx-access-log-user-monitor, nginx-user-activity-monitor, production-system-monitoring-gap-analysis, serve-static-files-nginx, server-disk-space-analysis, server-health-check-arabic, stealth-agent-browser-mcp-arm64, stealth-agent-browser-mcp-testing, telegram-bot-conflict-fix, webhook-subscriptions
-### email
-- himalaya
-### github
-- codebase-inspection, github-auth, github-code-review, github-issues, github-pr-workflow, github-repo-management
-### mcp
-- mcporter, native-mcp
-### media
-- gif-search, heartmula, songsee, spotify, youtube-content
-### mlops
-- arabic-correction-layer, arabic-text-correction-layer, arm64-voice-pipeline, audiocraft-audio-generation, axolotl, cpu-image-generation-arm64, dspy, evaluating-llms-harness, fastsd-cpu-arm64, fine-tuning-with-trl, gguf-quantization, huggingface-hub, llama-cpp, modal-gpu-ml-deployment, modal-serverless-gpu, obliteratus, obscura-browser, omnivoice-modal-tts, open-llm-vtuber-arm64, outlines, peft-fine-tuning, segment-anything-model, serving-llms-vllm, stable-diffusion-image-generation, unsloth, weights-and-biases
-### note-taking
-- obsidian
-### productivity
-- airtable, arabic-market-briefing, conversational-openings, daily-briefing, google-workspace, linear, maps, nano-pdf, notion, ocr-and-documents, powerpoint, tara-marketing, teams-meeting-pipeline
-### research
-- arxiv, blogwatcher, llm-wiki, polymarket, research-paper-writing
-### smart-home
-- openhue
-### social-media
-- xurl
-### software-development
-- action-loop-detector, adapter-detect-normalize-pattern, ai-agent-evaluation-framework, arabic-technical-reporting, build-from-scratch-python-infrastructure, codebase-architecture-audit, debugging-hermes-tui-commands, eisax-agent-interaction-patterns, hermes-agent-skill-authoring, memory-provider-plugin, memory-search-enhancer, node-inspect-debugger, plan, plugin-pipeline-architecture, python-debugpy, requesting-code-review, scrapling, self-improvement-loop, spike, subagent-driven-development, systematic-debugging, test-driven-development, unified-evaluation-engine, writing-plans
 
+### creative (19)
+- architecture-diagram, ascii-art, ascii-video, baoyu-comic, baoyu-infographic, claude-design, comfyui, design-md, excalidraw, humanizer, ideation, manim-video, p5js, pixel-art, popular-web-designs, pretext, sketch, songwriting-and-ai-music, touchdesigner-mcp
+
+### data-science (1)
+- jupyter-live-kernel
+
+### devops (20)
+- agent-state-snapshot, browserbase-cdp-direct-arm64, browserbase-cloudflare-troubleshoot, cdp-direct-browser-backend, eisax-server-baseline, hermes-agent-linux-server-installation, hermes-agent-production-setup, hyperframes-arm64-rendering, kanban-orchestrator, kanban-worker, nginx-access-log-user-monitor, nginx-user-activity-monitor, production-system-monitoring-gap-analysis, serve-static-files-nginx, server-disk-space-analysis, server-health-check-arabic, stealth-agent-browser-mcp-arm64, stealth-agent-browser-mcp-testing, telegram-bot-conflict-fix, webhook-subscriptions
+
+### email (1)
+- himalaya
+
+### github (6)
+- codebase-inspection, github-auth, github-code-review, github-issues, github-pr-workflow, github-repo-management
+
+### mcp (2)
+- mcporter, native-mcp
+
+### media (5)
+- gif-search, heartmula, songsee, spotify, youtube-content
+
+### mlops (26)
+- arabic-correction-layer, arabic-text-correction-layer, arm64-voice-pipeline, audiocraft-audio-generation, axolotl, cpu-image-generation-arm64, dspy, evaluating-llms-harness, fastsd-cpu-arm64, fine-tuning-with-trl, gguf-quantization, huggingface-hub, llama-cpp, modal-gpu-ml-deployment, modal-serverless-gpu, obliteratus, obscura-browser, omnivoice-modal-tts, open-llm-vtuber-arm64, outlines, peft-fine-tuning, segment-anything-model, serving-llms-vllm, stable-diffusion-image-generation, unsloth, weights-and-biases
+
+### note-taking (1)
+- obsidian
+
+### productivity (13)
+- airtable, arabic-market-briefing, conversational-openings, daily-briefing, google-workspace, linear, maps, nano-pdf, notion, ocr-and-documents, powerpoint, tara-marketing, teams-meeting-pipeline
+
+### research (5)
+- arxiv, blogwatcher, llm-wiki, polymarket, research-paper-writing
+
+### smart-home (1)
+- openhue
+
+### social-media (2)
+- linkedin-api-publishing, xurl
+
+### software-development (24)
+- action-loop-detector, adapter-detect-normalize-pattern, ai-agent-evaluation-framework, arabic-technical-reporting, build-from-scratch-python-infrastructure, codebase-architecture-audit, debugging-hermes-tui-commands, eisax-agent-interaction-patterns, hermes-agent-skill-authoring, memory-provider-plugin, memory-search-enhancer, node-inspect-debugger, plan, plugin-pipeline-architecture, python-debugpy, requesting-code-review, scrapling, self-improvement-loop, spike, subagent-driven-development, systematic-debugging, test-driven-development, unified-evaluation-engine, writing-plans
 ---
 ## 6. Palace Info (memory palace — palace-memory provider)
 
-**Location:** `/home/ubuntu/.hermes/palace/` (11 MB total)
+**Location:** `/home/ubuntu/.hermes/palace/` (11M on disk via du, 9.0 MB in top-level files per probe)
 
-### Chroma vector store (`chroma.sqlite3`, 9,351,168 bytes, last write 2026-05-19)
+### Chroma vector store (`chroma.sqlite3`, 9,351,168 bytes, last write 2026-05-19 10:26)
 - Collection: `palace_drawers` (id d814d6a9-add8-4977-acad-44f1a57ff1f1)
 - Embeddings: **1014**
 - Tables: collections, segments, embeddings, embedding_metadata, embedding_fulltext_search (+ metadata arrays, queues, maintenance)
 
-### Knowledge graph (`knowledge_graph.db`, 57,344 bytes, last write 2026-05-18)
-- Entities: **37** (topic type; e.g. Ahmed, Tara, OmniVoice, Lahgtna, AECoin...)
+### Knowledge graph (`knowledge_graph.db`, 57,344 bytes, last write 2026-05-18 22:41)
+- Tables: entities, relationships, tunnels (plus sqlite_sequence)
+- Entities: **37** (entity_type 'topic'; e.g. Ahmed, Tara, OmniVoice, Lahgtna, AECoin, Modal, TTS, Tia, LinkedIn, HyperFrames, EisaX, edge-tts)
 - Relationships: **113**
 - Tunnels: 0
 - Entity schema: id, name, entity_type, aliases, description, first_seen, last_seen, metadata
@@ -366,5 +384,7 @@ You are تارا (Tara), an AI assistant built for Ahmed and the EisaX team. You
 - Vector data last written 2026-05-19; the palace has not received new embeddings since the 2026-08-31 restore.
 - Quick reference skill: `.hermes/skills/.archive/agent-state-archival/references/palace-tools-quickref.md`
 
+
 ---
-_End of snapshot — generated 2026-09-01 03:09  by cron job._
+_End of snapshot — generated 2026-09-03 03:06 by cron job._
+
