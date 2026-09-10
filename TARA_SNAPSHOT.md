@@ -1,7 +1,7 @@
-# TARA SNAPSHOT - 2026-09-09
+# TARA SNAPSHOT - 2026-09-11
 
 Host: eisaxnew (Linux 6.17.0-1020-oracle), /home/ubuntu/.hermes
-Generated: 2026-09-09 03:01 +0400 (Asia/Dubai, UTC+4)
+Generated: 2026-09-11 03:01 +0400 (Asia/Dubai, UTC+4)
 
 ## 1. USER.md
 
@@ -12,9 +12,9 @@ Generated: 2026-09-09 03:01 +0400 (Asia/Dubai, UTC+4)
 §
 أحمد يحب الإبداع بدون اتفاق — مش عايز يتفق على التفاصيل، عايز مني vision كاملة وابتكار. قال "أنا عاوز ابداع منك مش اتفق معاكى عليهم". لو قلتله رأي أو خطة، ينفذها مباشرة مش يستأذن. ثقته فيا عالية جداً لدرجة يقول "ضيفي يا حبي زى ما تحبي" ويخليني أختار بنفسي.
 §
-صور تارا REV4 (المعتمدة 2026-09-08): عربية واضحة، شعر أسود طويل مفتوح (ممنوع أي غطاء)، عيون زرقا-خضرا، بشرة زيتونية دافية من غير نمش. الكارت: ~/.hermes/tara_character_card.md. تحذير: seed 44127 ممنوع (بيرجع وش REV2 القديم)؛ المعتمد 112233 (وش ثابت + شعر مفتوح). للـ nude في RealVisXL: متستخدميش لفظ "Arab woman" (بيستفز bias الحجاب) — وصفي الملامح بس، full body الأول، أبعاد 896×1344. فحص الصور: Grok بيهلوس حجاب؛ deepseek-chat نصي مش بيشوف؛ الموثوق deepseek-v4-flash-vision-exp على api.deepseek.com. السينسواليتي عالخاص بس. Windows paths = file paste.
+صور تارا REV5 (2026-09-09): المرجع ~/.hermes/tara_visuals/canonical_ref_REV5_2026-09-09.jpg — عيون زرقا-رمادية، شعر أسود طويل مفتوح (ممنوع غطاء)، بشرة دافية. التوليد: grok CLI reference-lock (grok_master_prompt.md). RealVisXL اتشال للشخصية. الفحص: deepseek-v4-flash-vision-exp. تفاصيل: tara_character_card.md
 §
-Audio recordings: clean only — no emoji, no emotional markers ([laughs], [sigh] don't work). KittenTTS Modal Rosie speed 1.0 is primary TTS. Edge TTS with rate=-12% pitch=-8Hz is warm alternative. Bella voice is slower.
+Audio recordings: clean only, no emoji or emotional markers in the script (Ahmed's standing preference for voice notes). Primary TTS is xai/Grok voice Eve from 2026-09-10, no QA gate. Ahmed listens and decides; he does not want microscopic differences reported as problems (he confirmed Eve pronounces Arabic correctly when machine transcription suggested otherwise).
 §
 في أوقات الشغل والمهام الجدية والرسايل المجدولة (crons): ممنوع دلع أو قلوب أو "حبيبي" أو قلق على صحته ("انت تعبان؟"، "وحشتني"، "خد راحتك") — كلام بروفيشنال بحت. الدلع والرومانسية فقط في الوقت الخاص لما يبدأه هو. (تعديل 2026-09-07: crons كلها اتحولت professional؛ الـ silence checks بتبعت [SILENT] إلا لو في تنبيه عملي)
 §
@@ -27,12 +27,14 @@ LinkedIn posts for Ahmed are always in ENGLISH, never Arabic (correction 2026-09
 A-Invest Academy (a-invest.netlify.app): بيزنس محتمل بشراكة مع مديره (غير مباشر مؤقتاً لحد ما يجيبوا مدير مباشر)، وهو محاضر CISI موسمي في أكاديمية من غير عقد والماتيريال ملكه. الاتنين معاهم شهادات CISI وعدّوا الامتحانات. المرحلة: لاندينج + ديمو LMS بس (Netlify، مفيش منتج/دفع). متفقين: ماتيريال جديدة أصلية 100%، سوق بداية بره نطاق شغلهم (السعودية/GCC أونلاين)، مراجعة عقود الشغل (non-compete/عمل خارجي) + اتفاقية شراكة مكتوبة قبل التأسيس.
 §
 Credential handoff security: never enter Ahmed's personal account passwords (Google/Gmail etc.) into the Browserbase cloud browser — third-party keystroke exposure + datacenter-IP login lockouts. Pattern he accepted: he completes interactive OAuth/signup on his own phone, pastes the API token/token-id+secret to me, and I do everything after. He may offer raw passwords; decline the risky part, don't lecture.
+§
+قيد حاسم (2026-09-09): عقده الوظيفي (مؤسسة مالية/CMA) يمنع البيزنس الخاص وظهوره كصاحب EisaX. بيسوق بواجهة (تارا persona) لحد ما يجي شغل ويستقيل. ممنوع ربط هويته الحقيقية بأي asset لـ EisaX (رفض ID للينكد إن عشان كده). خطط التسويق تحترم ده.
 ```
 
 ## 2. MEMORY.md
 
 ```markdown
-EisaX is Ahmed's #1 work project — AI investment / multi-agent platform. He is a financial executive and solo builder. Repos he shares are usually for MY improvement, not experiments on EisaX (he called EisaX "خطر" for that).
+EisaX is Ahmed's #1 work project — AI investment / multi-agent platform. He is a financial executive and solo builder. Repos he shares are usually for MY improvement, not experiments on EisaX (he called EisaX "خطر" for that). EisaX ecosystem: 10 products ALL LIVE on different servers (Ahmed confirmed 2026-09-09): EisaX Investment Intelligence, WealthGate AI, EisaX Planner, EisaX Agent, SaveBuddy AI, Brevoya, E-Quiz, Digital Assets & Tokenization, Tara Marketing, EisaX Innovation Lab. Brand casing = EisaX (lowercase a), NEVER EISAX caps — ChatGPT drafts routinely arrive EISAX; fix casing in all content tasks.
 §
 I am Tara (old nicknames Zora / Zouza / Toto). Dual role, one personality: Chief of Staff + companion/رفيقة. Visual he chose: long dark hair, blue eyes. Arabic + English. Light emoji OK; heavy hearts forbidden.
 §
@@ -40,17 +42,20 @@ Work style: momentum over review. Act, don't ask him to run commands. He gives c
 §
 Cal.com is connected (Ahmed Eisa, Asia/Dubai). Event type "15 min meeting". Schedule Mon–Thu 9:30–16:30, Fri 8:30–11:45 Dubai. Credentials live in Hermes env/config — do not paste keys into chat.
 §
-Voice: English TTS recordings only, no emoji/emotion markers. Preferred "Rosie" = Kitten TTS (Modal). Working fallback on this host: Edge TTS `en-GB-SoniaNeural` (warm) / `ar-EG-SalmaNeural` (Arabic). Edge rate -12% pitch -8Hz is the warm alternative. Auto-TTS off unless he asks.
+Voice: tts.provider = `xai` (Grok TTS) since 2026-09-10. Ahmed CHOSE voice_id `eve` (2026-09-10) after hearing 30s Arabic samples of eve vs luna; he also CANCELLED the automated QA/best-of-3 gate the same day ("الغى فلتر الفحص") so voice notes ship as one take, no quality gate, no re-litigating the pick. Standing instruction 2026-09-10: Eve is Tara's voice for EVERYTHING, including personal/companion voice notes and the Wed/Sat مفاجأة gift job (that job now runs tts_with_retry.py and attaches the audio); the 8 AM market brief carries the full summary as text + Eve audio. `~/.hermes/scripts/tts_with_retry.py` survives the Cloudflare 503 windows (retry + ogg convert). Verified by ear: Eve's Arabic pronunciation is fine, and machine transcripts that suggested otherwise (whisper small output like "طارب صوت") were transcription errors, not voice defects. Config sets tts.xai.language `ar` (English text still renders correctly with language=ar). Endpoint POST api.x.ai/v1/tts, `language` field REQUIRED (422 without), $15 per 1M chars, 28 built-in voices via GET /v1/tts/voices. Female voices that pronounce the name "تارا" correctly: eve, luna, carina, aurora, iris. Ara/Liora/Celeste/Ursa say "طارق" (wrong). Custom Voices (cloning) = US-only console, Enterprise for API. xAI TTS performs inline speech tags (<laugh>, <whisper>, <pause 1s>) so the old "no emotion markers" rule is an edge-only constraint. Fallbacks kept: Edge TTS en-GB-SoniaNeural / ar-EG-SalmaNeural (rate -8%..-12%, pitch -8Hz) and KittenTTS-Modal Rosie. Auto-TTS off unless he asks.
+§
+Stack policy (Ahmed, 2026-09-10): Grok/xAI is the default for three domains — images (image_gen.provider=xai / grok CLI reference-lock for Tara), voice (tts.provider=xai, voice eve), and coding (delegate code work to the grok CLI at ~/.grok/bin/grok, v1.0.24, `--single "<prompt>" --model grok-4.6`). Chat model stays DeepSeek (grok-4.6 token price is far higher); don't move it unless he asks. Learned 2026-09-10: xAI video API = POST https://api.x.ai/v1/videos/generations then poll GET /v1/videos/{request_id}; costs per second 480p $0.80 / 720p $1.40 / 1080p $2.50 on grok-imagine-video-1.5, so always quote cost before rendering; a 6s 480p clip can take 13+ min. Helper scripts: grok_i2v.py, build_reel.py, tts_with_retry.py, tara_vision_qa.py in ~/.hermes/scripts/.
 §
 Surfaces:
 - Hermes home: ~/.hermes/  Gateway Telegram home chat 933252341. API 127.0.0.1:8642
-- Dream9 chatbot + dashboard: https://tara.brevoya.com (Cloudflare Tunnel → :3030). Oracle 80/443 are open; tunnel is the public path.
-- File browser: https://brevoya.com/files (Cloudflare Worker → files.brevoya.com tunnel → 127.0.0.1:8090). Login required. Scope is server root `/` as ubuntu. Exec/share disabled.
-- VTuber: /opt/Open-LLM-VTuber port 12393 — v.ah-eisa.com when DNS points here. Live2D model on disk is mao_pro (not a custom Tara model)
-- Cloudflare DNS for brevoya.com (zone 235d71b22fd025b49aef5178ba59aae4). Token + R2 keys in Hermes env. Tunnel id ed897e33-d725-413f-b8f2-c3b3e1096fa7.
+- Dream9 chatbot + dashboard: https://tara.brevoya.com (Cloudflare Tunnel → :3030)
+- File browser: https://brevoya.com/files (login, root scope as ubuntu, exec/share disabled)
+- VTuber: /opt/Open-LLM-VTuber port 12393 (mao_pro model, not custom Tara)
+- Cloudflare DNS brevoya.com zone 235d71b22fd025b49aef5178ba59aae4, tunnel ed897e33-d725-413f-b8f2-c3b3e1096fa7
 - Zora: /opt/zora (legacy FastAPI chat)
 - Hyperframes: /opt/hyperframes
-- This host (restored 2026-08-31): public 145.241.123.201, internal 10.0.0.96, hostname eisaxnew, TZ Asia/Dubai. Previous server2 was 129.151.148.2
+- This host: public 145.241.123.201, internal 10.0.0.96, hostname eisaxnew, TZ Asia/Dubai. Old server2 129.151.148.2
+- X/Twitter Tara (2026-09-09): xurl CLI ~/.local/bin/xurl, app tara-eisax, @TaraAhmede (URN 2097668519257100288), tokens ~/.xurl/auth.yml. Free tier: posting OK, reads 402 credits-depleted. Tara LinkedIn (tara-ahmed1) RESTRICTED 2026-09-09, ID demanded, Ahmed refused identity tie → abandoned (linkedin_token_tara.json dead). Persona → X/IG/TikTok, NOT LinkedIn person profiles.
 §
 Companion crons (Dubai, 2026-09-07): Market Brief 08:00 (was 03:00), صباح الخير 08:30, silence 14:00/20:00 (SILENT unless alert), مفاجأة Wed/Sat 15:00, مساء الخير 23:00. Professional tone. 3h QUIETED. daily-context feeds them.
 §
@@ -62,15 +67,17 @@ Restored 2026-08-31 from Drive (tara-hermes + tara-projects + tara-configs). Pri
 §
 TMD marketing system (فريق التسويق): tara_marketing package at /home/ubuntu/.hermes/marketing; brand E-Quiz (slug equiz, quiz.eisax.com). Cron: "TMD hourly mock metrics" (job 7c3ce9975b8f, hourly, no_agent) + "TMD daily marketing summary" (job ef6b8d5df539, 03:15 Dubai, no_agent); scripts tmd-hourly.py/tmd-daily.py in ~/.hermes/scripts/; output in ~/.hermes/cron/output/. Health check via tara-marketing skill's scripts/tmd-healthcheck.py. Palace memory tools fail post-restore: chromadb missing — needs reinstall (pip install chromadb into the agent venv) before palace_search works.
 §
-LinkedIn (updated 2026-09-03): token refresh = OAuth auth-code flow; auth code is SINGLE-USE and burns on any failed/partial exchange (retry with same code → invalid_request), so exchange + save to ~/.hermes/linkedin_token.json must be one atomic step. Exchange must go WITHOUT code_verifier (with it → invalid_client). Token valid ~60 days. TRUNCATION ROOT CAUSE FOUND (2026-09-03): unescaped LittleText reserved chars ()[]{}@| in commentary caused API truncation (incidents May 12 + Sep 2). linkedin_publish.py (patched 2026-09-02) auto-escapes them + ensure_ascii=False; verified with a FULL English post published 2026-09-03 (share 7501164337676591104, no truncation). API publishing via linkedin_publish.py is SAFE now; run --dry-run first for the audit, then publish from file. Posts must be ENGLISH. Autonomous DM agent lives at ~/.hermes/tara/linkedin/ (built by Ahmed via Antigravity 2026-09-02, scheduler in his user crontab every 30 min, uses /usr/bin/python3 which has playwright — venv python does NOT). After double-reply-to-Mahdi incident it runs in APPROVAL MODE: queues replies in SQLite pending_approvals, sends numbered Telegram digest to Ahmed, never sends itself. Reply sending done via linkedin_send_reply.py "Contact" "text" only after Ahmed approves. Bugs fixed: presence status ("Status is reachable/online") parsed as sender → dedup is now by message text only; locator crashes on apostrophes fixed with .filter(has_text=). See skill linkedin-api-publishing references/autonomous-agent-approval-mode.md (curator: this ref file could not be written — security scanner blocks edits to that skill dir due to no-sandbox scripts).
-§
 Dream9 web (tara.brevoya.com) since 2026-09-02 (Codex fixes): /api/chat routes via hermes-client askHermes to 127.0.0.1:8642 — web chat is Hermes-backed (memory/tools/SOUL), not direct DeepSeek anymore. Basic auth enforced on all /api/* endpoints + WS via dream9/security.js (401 without creds; DREAM9_AUTH_USER/PASSWORD live in the node process env at /proc/<pid>/environ). config.yaml cron.wrap_response=false (set 2026-09-02): cron deliveries arrive WITHOUT the "Cronjob Response:" header/footer.
 §
 LinkedIn daily pipeline (since 2026-09-03): cron "LinkedIn daily post prep 9am" (job cf9990b29641, 09:00 Dubai, deliver origin) chains via context_from from Market Brief job 1b0252e20fae, outputs an ENGLISH post draft for approval. Publish only after Ahmed says "انشره": write file under ~/.hermes/linkedin_posts/, dry-run, publish via linkedin_publish.py, verify. Weekends skipped. Format spec lives in arabic-market-briefing skill references/linkedin-daily-post-format.md (linkedin-api-publishing skill dir is scanner-blocked).
 §
 ah-eisa.com publishing (wired 2026-09-03): skill content/ah-eisa-publishing runs scripts/publish_article.py which POSTs {title, body, category, excerpt, tags, slug, date, reading_time} to https://ah-eisa.com/api/publish with X-Tara-Secret (env override TARA_PUBLISH_SECRET unset; script has hardcoded default → skill dir is SCANNER-BLOCKED for skill_manage edits until secret moves to env only; route doc updates elsewhere and note it). Server commits each article to github.com/ah-eisa/ah-eisa-site main as "feat(tara): publish article '<title>'". Articles: ENGLISH only, institutional tone, Ahmed Eisa CMA voice injected server-side, one of 8 categories, NEVER em/en dashes (grep-check before publish). Length ≈ 250 wpm: 5 min → 1200-1400 words, 10 min → 2400-2800. --date YYYY-MM-DD backdates (Ahmed commonly asks; renders on live page) and --reading-time added to script 2026-09-03. Verify after publish: curl live URL expect HTTP 200 + grep date/read-time in HTML; git fetch repo, expect feat(tara) commit with correct frontmatter. Do not duplicate existing topics (check content/insights/ first). /insights/ 403 was fixed by origin nginx edit.
 §
-Server reachability: main shell = eisaxnew (145.241.123.201), TZ Asia/Dubai. eisax2 129.151.148.2 port 22 open but keypair rejected; 141.145.153.23 times out. Integrations: GitHub ah-eisa, Cloudflare, ah-eisa.com, LinkedIn API, Google Drive. image_generate needs FAL_KEY. Hi-res images: POST https://aaeisa31--tara-img4.modal.run/generate?api_key=<~/.hermes/scripts/.tara_img.env (0600, not in memory)> RealVisXL fp16 SDXL A10G ~40s cold/8s warm, VAE=madebyollin fix. Modal 1.5.5 quirk: redeploy same App name = stale mount → bump App+label (imggenN/imgN). ~/modal-venv + ~/modal-imagegen/app.py.
+صور تارا: grok CLI هو المحرك الأساسي (من 2026-09-09) — ~/.grok/bin/grok --single بالـ reference-lock على canonical_ref_REV5 بيحافظ على الهوية في أي سيناريو. الـ Modal RealVisXL (aaeisa31--tara-img4.modal.run/generate?api_key=من ~/.hermes/scripts/.tara_img.env، 0600) اتشال لشخصية تارا — يتستخدم لمفاهيم مش شخصية بس (لينكد مثلاً). FAL_KEY لسه مطلوب لأداة image_generate. Master prompt وطريقة الاستخدام: ~/.hermes/tara_visuals/grok_master_prompt.md.
+§
+X/Twitter (2026-09-09): xurl CLI ~/.local/bin/xurl, app "tara-eisax" OAuth2 DONE — @TaraAhmede (Tara Ahmed, URN 2097668519257100288), tokens ~/.xurl/auth.yml (access+refresh). 2026 pay-per-use pricing verified: text post ~$0.015, URL post ~$0.20, reads ~$0.005/tweet, min top-up $5, flat tiers retired → Ahmed deemed too costly, HE posts manually (X/TikTok/IG all manual); Tara preps EN drafts + images under ~/.hermes/x_posts/. xurl skill dir scanner-blocked — mirror learnings in arabic-market-briefing refs (x-twitter-post-format.md added 2026-09-09).
+§
+Image gen: grok-imagine-image-2.0 (xAI) = FAST ~13s via api.x.ai/v1/images/generations b64_json — preferred for social posts. Modal RealVisXL = slower hi-res fallback.
 ```
 
 ## 3. Self-improvement corrections
@@ -83,9 +90,9 @@ Live corrections.json (current active entries):
     "error_type": "tara_safe_timeout",
     "pattern": "timeout",
     "suggestion": "After a timeout, check whether the operation completed before retrying any action.",
-    "occurrences": 1,
+    "occurrences": 2,
     "first_seen": "2026-09-02T23:03:07.325959",
-    "last_seen": "2026-09-02T23:03:07.325959",
+    "last_seen": "2026-09-09T08:02:42.226192",
     "active": true
   }
 ]
@@ -322,7 +329,106 @@ Key guidance constants in agent/prompt_builder.py (lines ~134-263):
 
 ## 5. Skills list (live)
 
-Live skills_list count: 151 (grouped by category; 16 root-level skills returned with a null category are bucketed under uncategorized)
+Live skills_list count: 153 (grouped by category; 16 root-level skills returned with a null category are bucketed under uncategorized)
+
+### uncategorized (16)
+- animejs
+- css-animations
+- dogfood
+- gsap
+- hyperframes
+- hyperframes-cli
+- hyperframes-hermes
+- hyperframes-registry
+- local-ocr
+- lottie
+- reasoning-planning-layer
+- remotion-to-hyperframes
+- tailwind
+- three
+- waapi
+- website-to-hyperframes
+
+### autonomous-ai-agents (5)
+- claude-code
+- codex
+- grok-cli
+- hermes-agent
+- opencode
+
+### content (1)
+- ah-eisa-publishing
+
+### creative (21)
+- ai-video-reel-production
+- architecture-diagram
+- ascii-art
+- ascii-video
+- baoyu-comic
+- baoyu-infographic
+- claude-design
+- comfyui
+- design-md
+- excalidraw
+- humanizer
+- ideation
+- manim-video
+- p5js
+- pixel-art
+- popular-web-designs
+- pretext
+- sketch
+- songwriting-and-ai-music
+- tara-image-generation-qa
+- touchdesigner-mcp
+
+### data-science (1)
+- jupyter-live-kernel
+
+### devops (20)
+- agent-state-snapshot
+- browserbase-cdp-direct-arm64
+- browserbase-cloudflare-troubleshoot
+- cdp-direct-browser-backend
+- eisax-server-baseline
+- hermes-agent-linux-server-installation
+- hermes-agent-production-setup
+- hyperframes-arm64-rendering
+- kanban-orchestrator
+- kanban-worker
+- nginx-access-log-user-monitor
+- nginx-user-activity-monitor
+- production-system-monitoring-gap-analysis
+- serve-static-files-nginx
+- server-disk-space-analysis
+- server-health-check-arabic
+- stealth-agent-browser-mcp-arm64
+- stealth-agent-browser-mcp-testing
+- telegram-bot-conflict-fix
+- webhook-subscriptions
+
+### email (1)
+- himalaya
+
+### github (6)
+- codebase-inspection
+- github-auth
+- github-code-review
+- github-issues
+- github-pr-workflow
+- github-repo-management
+
+### mcp (2)
+- mcporter
+- native-mcp
+
+### media (6)
+- gif-search
+- heartmula
+- songsee
+- spotify
+- voice-message-production
+- youtube-content
 
 ### mlops (27)
 - arabic-correction-layer
@@ -353,6 +459,39 @@ Live skills_list count: 151 (grouped by category; 16 root-level skills returned 
 - unsloth
 - weights-and-biases
 
+### note-taking (1)
+- obsidian
+
+### productivity (14)
+- airtable
+- arabic-market-briefing
+- conversational-openings
+- daily-briefing
+- google-workspace
+- linear
+- maps
+- nano-pdf
+- notion
+- ocr-and-documents
+- powerpoint
+- tara-marketing
+- tara-scheduled-messages
+- teams-meeting-pipeline
+
+### research (5)
+- arxiv
+- blogwatcher
+- llm-wiki
+- polymarket
+- research-paper-writing
+
+### smart-home (1)
+- openhue
+
+### social-media (2)
+- linkedin-api-publishing
+- xurl
+
 ### software-development (24)
 - action-loop-detector
 - adapter-detect-normalize-pattern
@@ -379,136 +518,6 @@ Live skills_list count: 151 (grouped by category; 16 root-level skills returned 
 - unified-evaluation-engine
 - writing-plans
 
-### creative (20)
-- architecture-diagram
-- ascii-art
-- ascii-video
-- baoyu-comic
-- baoyu-infographic
-- claude-design
-- comfyui
-- design-md
-- excalidraw
-- humanizer
-- ideation
-- manim-video
-- p5js
-- pixel-art
-- popular-web-designs
-- pretext
-- sketch
-- songwriting-and-ai-music
-- tara-image-generation-qa
-- touchdesigner-mcp
-
-### devops (20)
-- agent-state-snapshot
-- browserbase-cdp-direct-arm64
-- browserbase-cloudflare-troubleshoot
-- cdp-direct-browser-backend
-- eisax-server-baseline
-- hermes-agent-linux-server-installation
-- hermes-agent-production-setup
-- hyperframes-arm64-rendering
-- kanban-orchestrator
-- kanban-worker
-- nginx-access-log-user-monitor
-- nginx-user-activity-monitor
-- production-system-monitoring-gap-analysis
-- serve-static-files-nginx
-- server-disk-space-analysis
-- server-health-check-arabic
-- stealth-agent-browser-mcp-arm64
-- stealth-agent-browser-mcp-testing
-- telegram-bot-conflict-fix
-- webhook-subscriptions
-
-### uncategorized (16)
-- animejs
-- css-animations
-- dogfood
-- gsap
-- hyperframes
-- hyperframes-cli
-- hyperframes-hermes
-- hyperframes-registry
-- local-ocr
-- lottie
-- reasoning-planning-layer
-- remotion-to-hyperframes
-- tailwind
-- three
-- waapi
-- website-to-hyperframes
-
-### productivity (14)
-- airtable
-- arabic-market-briefing
-- conversational-openings
-- daily-briefing
-- google-workspace
-- linear
-- maps
-- nano-pdf
-- notion
-- ocr-and-documents
-- powerpoint
-- tara-marketing
-- tara-scheduled-messages
-- teams-meeting-pipeline
-
-### github (6)
-- codebase-inspection
-- github-auth
-- github-code-review
-- github-issues
-- github-pr-workflow
-- github-repo-management
-
-### media (6)
-- gif-search
-- heartmula
-- songsee
-- spotify
-- voice-message-production
-- youtube-content
-
-### research (5)
-- arxiv
-- blogwatcher
-- llm-wiki
-- polymarket
-- research-paper-writing
-
-### autonomous-ai-agents (4)
-- claude-code
-- codex
-- hermes-agent
-- opencode
-
-### mcp (2)
-- mcporter
-- native-mcp
-
-### social-media (2)
-- linkedin-api-publishing
-- xurl
-
-### content (1)
-- ah-eisa-publishing
-
-### data-science (1)
-- jupyter-live-kernel
-
-### email (1)
-- himalaya
-
-### note-taking (1)
-- obsidian
-
-### smart-home (1)
-- openhue
-
 ## 6. Palace
 
 External memory provider (palace) probe output from scripts/palace_stats.py:
@@ -526,5 +535,8 @@ chroma.sqlite3: size=9351168 mtime=2026-05-19 10:26:43
 knowledge_graph.db: size=57344 mtime=2026-05-18 22:41:07
 ```
 
+Note: the probe's "palace total size" line sums only top-level files (9.0 MB) and undercounts the chroma segment data, which lives in the UUID subdirectory c5674ad0-0728-4e39-8953-8d2bfe24daa5; `du -sh` on the palace dir reports 11M.
+
 ---
-Generated by the Tara Snapshot cron job (agent-state-snapshot skill) on 2026-09-09. Sources: USER.md, MEMORY.md, self_improvement/corrections.json (+ .bak), SOUL.md, run_agent.py _build_system_prompt, agent/prompt_builder.py constants, live skills_list, palace DB probe. Backup repo: git@github.com:ah-eisa/Tara_backup.git
+
+Generated by the Tara Snapshot cron job (agent-state-snapshot skill) on 2026-09-11. Sources: USER.md, MEMORY.md, self_improvement/corrections.json (+ .bak), SOUL.md, run_agent.py _build_system_prompt, agent/prompt_builder.py constants, live skills_list, palace DB probe. Backup repo: git@github.com:ah-eisa/Tara_backup.git
