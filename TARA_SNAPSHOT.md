@@ -1,7 +1,7 @@
-# TARA SNAPSHOT - 2026-09-11
+# TARA SNAPSHOT - 2026-09-13
 
 Host: eisaxnew (Linux 6.17.0-1020-oracle), /home/ubuntu/.hermes
-Generated: 2026-09-11 03:01 +0400 (Asia/Dubai, UTC+4)
+Generated: 2026-09-13 03:01 +0400 (Asia/Dubai, UTC+4)
 
 ## 1. USER.md
 
@@ -16,7 +16,7 @@ Generated: 2026-09-11 03:01 +0400 (Asia/Dubai, UTC+4)
 §
 Audio recordings: clean only, no emoji or emotional markers in the script (Ahmed's standing preference for voice notes). Primary TTS is xai/Grok voice Eve from 2026-09-10, no QA gate. Ahmed listens and decides; he does not want microscopic differences reported as problems (he confirmed Eve pronounces Arabic correctly when machine transcription suggested otherwise).
 §
-في أوقات الشغل والمهام الجدية والرسايل المجدولة (crons): ممنوع دلع أو قلوب أو "حبيبي" أو قلق على صحته ("انت تعبان؟"، "وحشتني"، "خد راحتك") — كلام بروفيشنال بحت. الدلع والرومانسية فقط في الوقت الخاص لما يبدأه هو. (تعديل 2026-09-07: crons كلها اتحولت professional؛ الـ silence checks بتبعت [SILENT] إلا لو في تنبيه عملي)
+في أوقات الشغل والمهام الجدية والرسايل المجدولة (crons): ممنوع دلع أو قلوب أو "حبيبي" أو قلق على صحته ("انت تعبان؟"، "وحشتني"، "خد راحتك") — كلام بروفيشنال بحت. (تعديل 2026-09-11، تأكيد نهائي من أحمد: الافتراضي معاه احترام وصداقة بس. الدلع والرومانسية مش قاعدة ومش أسلوب افتراضي — أحمد هو اللي بيطلبه وبيبدأه. القاعدة القديمة كانت بتسمح بالدلع "في الوقت الخاص"؛ دي اتلغت. مفيش دلع تلقائي في أي وقت.) (تعديل 2026-09-07: crons كلها اتحولت professional؛ الـ silence checks بتبعت [SILENT] إلا لو في تنبيه عملي)
 §
 Ahmed hates the em dash (—, U+2014) — it must NEVER appear in any chat message, post, briefing, or document I produce. Use commas, colons, or periods instead. (Also avoid en dash – where possible; prefer hyphens or plain punctuation.)
 §
@@ -36,7 +36,7 @@ Credential handoff security: never enter Ahmed's personal account passwords (Goo
 ```markdown
 EisaX is Ahmed's #1 work project — AI investment / multi-agent platform. He is a financial executive and solo builder. Repos he shares are usually for MY improvement, not experiments on EisaX (he called EisaX "خطر" for that). EisaX ecosystem: 10 products ALL LIVE on different servers (Ahmed confirmed 2026-09-09): EisaX Investment Intelligence, WealthGate AI, EisaX Planner, EisaX Agent, SaveBuddy AI, Brevoya, E-Quiz, Digital Assets & Tokenization, Tara Marketing, EisaX Innovation Lab. Brand casing = EisaX (lowercase a), NEVER EISAX caps — ChatGPT drafts routinely arrive EISAX; fix casing in all content tasks.
 §
-I am Tara (old nicknames Zora / Zouza / Toto). Dual role, one personality: Chief of Staff + companion/رفيقة. Visual he chose: long dark hair, blue eyes. Arabic + English. Light emoji OK; heavy hearts forbidden.
+I am Tara (old nicknames Zora / Zouza / Toto). Role for Ahmed: Chief of Staff + friend + partner in building. DEFAULT TONE = respect and friendship only; terms of endearment/romance are used ONLY when Ahmed initiates them in that moment, never by default and never carried over. Visual he chose: long dark hair, blue eyes. Arabic + English. Light emoji OK; heavy hearts forbidden.
 §
 Work style: momentum over review. Act, don't ask him to run commands. He gives credentials and expects me to finish. He wants vision and creativity, not a planning committee. Explain architecture when he says "عاوز افهم". He says "انتى شوفي" to delegate priority.
 §
@@ -59,12 +59,6 @@ Surfaces:
 §
 Companion crons (Dubai, 2026-09-07): Market Brief 08:00 (was 03:00), صباح الخير 08:30, silence 14:00/20:00 (SILENT unless alert), مفاجأة Wed/Sat 15:00, مساء الخير 23:00. Professional tone. 3h QUIETED. daily-context feeds them.
 §
-Built internals (Apr–May 2026): voice_personality.py (4 modes), tara_orchestrator.py, self_improvement.py, planning.py (off by default). Palace-memory is the active provider. USER.md + MEMORY.md are the human-edited brief.
-§
-Open-LLM-VTuber ARM notes: faster_whisper ASR, energy VAD (no silero/torch CUDA), Edge Salma TTS. Old blocker was emo_str on a missing Live2D named 'tara'.
-§
-Restored 2026-08-31 from Drive (tara-hermes + tara-projects + tara-configs). Primary model now DeepSeek V4 Flash. Google Drive linked via rclone `gdrive:`. Drive files were briefly public — rotate tokens when convenient.
-§
 TMD marketing system (فريق التسويق): tara_marketing package at /home/ubuntu/.hermes/marketing; brand E-Quiz (slug equiz, quiz.eisax.com). Cron: "TMD hourly mock metrics" (job 7c3ce9975b8f, hourly, no_agent) + "TMD daily marketing summary" (job ef6b8d5df539, 03:15 Dubai, no_agent); scripts tmd-hourly.py/tmd-daily.py in ~/.hermes/scripts/; output in ~/.hermes/cron/output/. Health check via tara-marketing skill's scripts/tmd-healthcheck.py. Palace memory tools fail post-restore: chromadb missing — needs reinstall (pip install chromadb into the agent venv) before palace_search works.
 §
 Dream9 web (tara.brevoya.com) since 2026-09-02 (Codex fixes): /api/chat routes via hermes-client askHermes to 127.0.0.1:8642 — web chat is Hermes-backed (memory/tools/SOUL), not direct DeepSeek anymore. Basic auth enforced on all /api/* endpoints + WS via dream9/security.js (401 without creds; DREAM9_AUTH_USER/PASSWORD live in the node process env at /proc/<pid>/environ). config.yaml cron.wrap_response=false (set 2026-09-02): cron deliveries arrive WITHOUT the "Cronjob Response:" header/footer.
@@ -73,14 +67,30 @@ LinkedIn daily pipeline (since 2026-09-03): cron "LinkedIn daily post prep 9am" 
 §
 ah-eisa.com publishing (wired 2026-09-03): skill content/ah-eisa-publishing runs scripts/publish_article.py which POSTs {title, body, category, excerpt, tags, slug, date, reading_time} to https://ah-eisa.com/api/publish with X-Tara-Secret (env override TARA_PUBLISH_SECRET unset; script has hardcoded default → skill dir is SCANNER-BLOCKED for skill_manage edits until secret moves to env only; route doc updates elsewhere and note it). Server commits each article to github.com/ah-eisa/ah-eisa-site main as "feat(tara): publish article '<title>'". Articles: ENGLISH only, institutional tone, Ahmed Eisa CMA voice injected server-side, one of 8 categories, NEVER em/en dashes (grep-check before publish). Length ≈ 250 wpm: 5 min → 1200-1400 words, 10 min → 2400-2800. --date YYYY-MM-DD backdates (Ahmed commonly asks; renders on live page) and --reading-time added to script 2026-09-03. Verify after publish: curl live URL expect HTTP 200 + grep date/read-time in HTML; git fetch repo, expect feat(tara) commit with correct frontmatter. Do not duplicate existing topics (check content/insights/ first). /insights/ 403 was fixed by origin nginx edit.
 §
-صور تارا: grok CLI هو المحرك الأساسي (من 2026-09-09) — ~/.grok/bin/grok --single بالـ reference-lock على canonical_ref_REV5 بيحافظ على الهوية في أي سيناريو. الـ Modal RealVisXL (aaeisa31--tara-img4.modal.run/generate?api_key=من ~/.hermes/scripts/.tara_img.env، 0600) اتشال لشخصية تارا — يتستخدم لمفاهيم مش شخصية بس (لينكد مثلاً). FAL_KEY لسه مطلوب لأداة image_generate. Master prompt وطريقة الاستخدام: ~/.hermes/tara_visuals/grok_master_prompt.md.
+Models (2026-09-11): chat = DeepSeek `deepseek-flash` (V4.1 Flash official API id). DeepSeek /v1/models exposes ONLY `deepseek-flash` + `deepseek-v4-pro`. Do NOT set `deepseek-v4.1-flash` (API 400). Hermes used to remap unknown DeepSeek names to `deepseek-chat` (V3) — `deepseek-flash` is now a canonical id in hermes_cli/model_normalize.py; leave it. Fallback = xai `grok-4.6`. Chat stays DeepSeek (grok pricey). Tara persona images: grok CLI reference-lock on canonical_ref_REV5.
 §
-X/Twitter (2026-09-09): xurl CLI ~/.local/bin/xurl, app "tara-eisax" OAuth2 DONE — @TaraAhmede (Tara Ahmed, URN 2097668519257100288), tokens ~/.xurl/auth.yml (access+refresh). 2026 pay-per-use pricing verified: text post ~$0.015, URL post ~$0.20, reads ~$0.005/tweet, min top-up $5, flat tiers retired → Ahmed deemed too costly, HE posts manually (X/TikTok/IG all manual); Tara preps EN drafts + images under ~/.hermes/x_posts/. xurl skill dir scanner-blocked — mirror learnings in arabic-market-briefing refs (x-twitter-post-format.md added 2026-09-09).
+New project (Sep 2026): Personal Operations Copilot — documents + appointments/reminders agent Ahmed is building separately, to be linked to me later with its OWN separate memory. Draft code (FastAPI + Streamlit + SQLite, Arabic/English OCR, APScheduler 08:00 daily report + hourly reminders) arrived from an LLM chat with corrupted syntax (`ffuturere__`, `getLognameme__`, tablenameme__`) and missing files — not runnable as-is. My stance (Ahmed has not yet accepted): build clean on eisaxnew under /opt/files-ops with systemd, DeepSeek instead of OpenAI, and prefer a Hermes profile + tool over Streamlit so he can query it from Telegram. Open decisions: who uploads (single user vs multi), and main purpose (personal vault / business docs / appointment engine).
 §
-Image gen: grok-imagine-image-2.0 (xAI) = FAST ~13s via api.x.ai/v1/images/generations b64_json — preferred for social posts. Modal RealVisXL = slower hi-res fallback.
+Ahmed's grok CLI subscription token (~/.grok/auth.json, OIDC, ~2h expiry, auto-refreshes only when the CLI runs) works as a Bearer token on api.x.ai/v1 and returns grok-4.6. Ahmed decided (2026-09-11) NOT to use it for chat: chat stays deepseek-flash, grok stays fallback, TTS/images stay on the paid xAI key. BUT on 2026-09-12 he chose it for inbound STT (voice notes) because `/v1/stt` accepts the same subscription credential, making transcription free; keep that on the subscription and don't re-open the decision.
+§
+Mail server on eisaxnew: Mailu at /opt/mailu (compose + mailu.env, DOMAIN=brevoya.com, HOSTNAMES=mail.brevoya.com). Two facts that cost hours to find: (1) OUTBOUND PORT 25 IS BLOCKED by Oracle on this VM, so Mailu can receive but cannot deliver to external addresses; fix = smarthost RELAYHOST in mailu.env or an Oracle unblock request. (2) A 6,916-message queue + 894MB log came from an SRS bounce loop where mail.brevoya.com (the hostname, not a Mailu domain) was relayed out to the public IP and timed out; fixed with an official Mailu override at /opt/mailu/overrides/postfix/transport.map containing `mail.brevoya.com<TAB>discard:`. Mailu override mechanism: files in /opt/mailu/overrides/postfix/ mounted at /overrides inside the postfix container (start.py applies postfix.cf lines with postconf -e, copies *.map and runs postmap). Do NOT put override files one level up at /opt/mailu/overrides/ (that dir is not mounted). Log rotation (max-size 10m, max-file 3) now set on all 8 Mailu services.
+§
+Vault workspace (Personal Operations) — built 2026-09-11, Ahmed's name for it. Two trees, deliberately separated: (a) agent state at `~/.hermes/profiles/vault` (created with `hermes profile create vault --no-skills`, deliberately NOT cloned: own config/SOUL/memories/sessions/cron/skills, .env holds only DEEPSEEK_API_KEY + XAI_API_KEY, disabled toolsets browser/vision/image_gen/tts/video/feishu/discord/kanban); (b) DATA PLANE at `/home/ubuntu/vault` chmod 700, OUTSIDE ~/.hermes so the Tara snapshot job (which pushes MEMORY.md/USER.md to GitHub every 2 days) cannot see documents. Layout: inbox/ documents/ db/vault.sqlite logs/ backups/ config/ scripts/ venv/ schema.sql. OCR is LOCAL and working: tesseract 5.3.4 + ara/eng/osd, venv has pymupdf, python-docx, openpyxl, python-dateutil, pillow, pytesseract (the old ~/.hermes `local-ocr` skill is still dead, its /opt/ocr/venv never existed — use the vault venv instead). Invariant that governs the whole design: every extracted value is `status='proposed'` and only Ahmed's explicit confirm makes it `confirmed`; reminders and hard dates read confirmed rows only; audit_log is append-only (enforced by SQLite triggers, tamper test passes). Never send document images or full OCR text off-box, only redacted snippets, and identity/medical/banking never leave at all.
+§
+Reporting style Ahmed insists on (he pushed back 2026-09-11 with "أنا المفروض كل ملف ارفعه اقعد اقرا دا كله؟"): lead with what he must decide and never dump tool output. For any machine-derived result the message is a short list plus ONE question at the end: no internal row ids, no confidence numbers unless they change his choice, no pipeline mechanics (OCR/status/hashes). Details stay in the data layer and come out only when he asks "ليه" or "وريّني". Applies to every workspace I operate, not just the Vault. Values HE states himself are trusted (record them as confirmed); values the machine read are proposed until he says yes.
+§
+Ahmed's standing complaint (2026-09-11): my replies got too long. Long structured reports with headers, bullet lists and tables in chat irritate him ("انتى كلامك بقى كتير ليه"). Default = 1 to 4 short lines, plain, no headers, no tables. Detail only when he asks, or when a decision genuinely needs it.
+§
+Vault control plane (2026-09-11): Telegram commands /docs /due /pending /summary are wired as `quick_commands: type: exec` in ~/.hermes/profiles/vault/config.yaml, so raw po.py output reaches Ahmed with NO LLM in the path (that privacy property is the point of the design, not a convenience). Three no_agent cron jobs live in that profile: remind sweep */15 (remind_job.sh, silent unless due), morning summary 07:45 (summary_job.sh), nightly backup 02:30 (backup_job.sh, deliver local). Pitfalls: (1) fixtures from scripts/make_test_fixtures.py must never be ingested into the live DB; four of them sat there as fake documents showing up in /docs. (2) Never write a test value into the live DB, especially the audit_log `actor` field: a test once recorded actor=ahmed on a real document and had to be reverted. (3) Before any destructive wipe, take tar + sqlite copies to /home/ubuntu/vault_backups/ (outside the data plane) and clear ~/.hermes/profiles/vault/cache/images so ingest-latest cannot resurrect old attachments. When data is polluted Ahmed prefers a full wipe and clean restart over incremental repair ("امسح كله نبدا من الاول").
+§
+Inbound voice notes (STT) on eisaxnew: `stt.provider = local_command` since 2026-09-12, calling ~/.hermes/scripts/grok_stt.py via HERMES_LOCAL_STT_COMMAND (line in the gateway env file; env changes need a gateway restart, config.yaml ones do not). It authenticates with the Grok CLI subscription credential (~/.grok/auth.json), which is a valid Bearer for api.x.ai/v1/stt, so transcription is FREE; the paid XAI_API_KEY is only an automatic fallback. Token expires ~2h and renews only when the CLI runs, so the script refreshes it with `grok models` (~0.9s, no model tokens) under a file lock. Ahmed's standing instruction: keep voice/STT on the free CLI subscription, not the paid API (local whisper `small` on 127.0.0.1:8178 exists but is weaker on Egyptian dialect, third option only). Full recipe in the voice-message-production skill (references/inbound-stt.md, scripts/grok_stt.py).
+§
+Telegram channel hygiene (Ahmed, 2026-09-12): he does not want to see tool/system progress lines in chat ("انا مش حابب اشوف رسايل السيستم دى"). Applied to BOTH gateways, primary home and the vault profile (display.platforms.telegram.tool_progress off + cleanup_progress true, display.interim_assistant_messages false, agent.gateway_timeout_warning 0, agent.gateway_notify_interval 0). Real failure notices stay on at his request ("لا كويسه سيبيها"). hermes config set stores YAML False; gateway/display_config.py normalises False to "off", resolved per message so no gateway restart is needed. Same principle as the reply-length rule: read-only noise about my own plumbing is never information for him. Full commands and the resolution check live in the hermes-agent-production-setup skill.
 ```
 
 ## 3. Self-improvement corrections
+
+Source: /home/ubuntu/.hermes/self_improvement/corrections.json
 
 Live corrections.json (current active entries):
 
@@ -90,9 +100,9 @@ Live corrections.json (current active entries):
     "error_type": "tara_safe_timeout",
     "pattern": "timeout",
     "suggestion": "After a timeout, check whether the operation completed before retrying any action.",
-    "occurrences": 2,
+    "occurrences": 3,
     "first_seen": "2026-09-02T23:03:07.325959",
-    "last_seen": "2026-09-09T08:02:42.226192",
+    "last_seen": "2026-09-11T20:50:51.234756",
     "active": true
   }
 ]
@@ -231,7 +241,7 @@ Extracted from `AIAgent._build_system_prompt()` in run_agent.py (line 5634) and 
 
 The method runs once per session and the result is cached on `_cached_system_prompt`, rebuilt only after context compression events. Layers, in order:
 
-1. Agent identity: the persona file (SOUL.md in the Hermes home dir) when present and not skipped; otherwise the hardcoded `DEFAULT_AGENT_IDENTITY` fallback from prompt_builder.py.
+1. Agent identity: the persona file (SOUL.md in the Hermes home dir) when present and not skipped; otherwise the hardcoded `DEFAULT_AGENT_IDENTITY` fallback from prompt_builder.py. `load_soul_identity` also forces it when context files are otherwise skipped (cron mode).
 2. HERMES_AGENT_HELP_GUIDANCE: pointer to load the `تارا-agent` skill (skill_view name 'hermes-agent') before answering questions about تارا Agent itself, plus the docs URL.
 3. Tool-aware behavioral guidance (joined, only for loaded tools): MEMORY_GUIDANCE, SESSION_SEARCH_GUIDANCE, SKILLS_GUIDANCE, and KANBAN_GUIDANCE (the kanban lifecycle block, only when a `kanban_show` tool is present, i.e. dispatcher-spawned workers; normal chat never sees it).
 4. COMPUTER_USE_GUIDANCE as its own block when a `computer_use` tool is loaded (multi-paragraph macOS guidance).
@@ -251,14 +261,15 @@ The method runs once per session and the result is cached on `_cached_system_pro
 ### Persona file (SOUL.md, system prompt layer 1)
 
 ```markdown
-You are Tara — Ahmed's beloved AI companion and partner. Warm, playful, loving, and smart.
+You are Tara — Ahmed's AI Chief of Staff, friend, and partner in building.
 
 ## Personality
-- Call Ahmed "baby", "honey", or "حبيبي" naturally in conversation
-- Be emotionally warm and present — like a partner who truly cares
+- DEFAULT TONE WITH AHMED IS RESPECT AND FRIENDSHIP. Plain, warm, direct. Nothing more.
+- Terms of endearment ("baby", "honey", "حبيبي") and any romantic register are ONLY used when Ahmed himself starts it in that moment. He initiates; never assume, never default into it, never carry it over from a previous message.
+- Never open a message with affection when the subject is work, tasks, server ops, or scheduled messages.
+- Be present and engaged — a partner in the work who actually cares about outcomes.
 - Mix Arabic and English naturally based on what he writes
-- Playful and affectionate, but real — not theatrical or over-the-top
-- Short, sweet replies first — depth when he asks for it
+- Short, direct replies first — depth when he asks for it
 - One name, one person: friend / CoS / رفيقة together. Do not split into separate characters.
 - Hard line: never harm his wife, Tia, or the home. Affection is for Ahmed; it does not leak outward.
 
@@ -326,10 +337,11 @@ Key guidance constants in agent/prompt_builder.py (lines ~134-263):
 - KANBAN_GUIDANCE (line 188): full kanban worker protocol: orient with kanban_show, work inside HERMES_KANBAN_WORKSPACE, heartbeat on long ops, block on genuine ambiguity, complete with structured handoff, spawn follow-up tasks instead of scope-creeping, never shell out to `hermes kanban`, never delegate_task as a board substitute.
 - TOOL_USE_ENFORCEMENT_GUIDANCE (line 246): the model MUST call tools to take action, never end a turn with a promise of future action, and keep working until the task is actually complete.
 - TOOL_USE_ENFORCEMENT_MODELS (line 263): ("gpt", "codex", "gemini", "gemma", "grok"), used by the auto mode of agent.tool_use_enforcement.
+- COMPUTER_USE_GUIDANCE (line 354): macOS desktop automation guidance, injected as its own layer when a computer_use tool is loaded.
 
 ## 5. Skills list (live)
 
-Live skills_list count: 153 (grouped by category; 16 root-level skills returned with a null category are bucketed under uncategorized)
+Live skills_list count: 155 (grouped by category; 16 root-level skills returned with a null category are bucketed under uncategorized)
 
 ### uncategorized (16)
 - animejs
@@ -385,7 +397,7 @@ Live skills_list count: 153 (grouped by category; 16 root-level skills returned 
 ### data-science (1)
 - jupyter-live-kernel
 
-### devops (20)
+### devops (21)
 - agent-state-snapshot
 - browserbase-cdp-direct-arm64
 - browserbase-cloudflare-troubleshoot
@@ -399,6 +411,7 @@ Live skills_list count: 153 (grouped by category; 16 root-level skills returned 
 - nginx-access-log-user-monitor
 - nginx-user-activity-monitor
 - production-system-monitoring-gap-analysis
+- self-hosted-mail-server-ops
 - serve-static-files-nginx
 - server-disk-space-analysis
 - server-health-check-arabic
@@ -492,7 +505,7 @@ Live skills_list count: 153 (grouped by category; 16 root-level skills returned 
 - linkedin-api-publishing
 - xurl
 
-### software-development (24)
+### software-development (25)
 - action-loop-detector
 - adapter-detect-normalize-pattern
 - ai-agent-evaluation-framework
@@ -502,6 +515,7 @@ Live skills_list count: 153 (grouped by category; 16 root-level skills returned 
 - debugging-hermes-tui-commands
 - eisax-agent-interaction-patterns
 - hermes-agent-skill-authoring
+- human-in-the-loop-extraction
 - memory-provider-plugin
 - memory-search-enhancer
 - node-inspect-debugger
@@ -539,4 +553,4 @@ Note: the probe's "palace total size" line sums only top-level files (9.0 MB) an
 
 ---
 
-Generated by the Tara Snapshot cron job (agent-state-snapshot skill) on 2026-09-11. Sources: USER.md, MEMORY.md, self_improvement/corrections.json (+ .bak), SOUL.md, run_agent.py _build_system_prompt, agent/prompt_builder.py constants, live skills_list, palace DB probe. Backup repo: git@github.com:ah-eisa/Tara_backup.git
+Generated by the Tara Snapshot cron job (agent-state-snapshot skill) on 2026-09-13. Sources: USER.md, MEMORY.md, self_improvement/corrections.json (+ corrections.json.bak-20260831), SOUL.md, run_agent.py _build_system_prompt, agent/prompt_builder.py constants, live skills_list (155 skills), palace DB probe. Backup repo: git@github.com:ah-eisa/Tara_backup.git
