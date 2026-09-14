@@ -1,7 +1,7 @@
-# TARA SNAPSHOT - 2026-09-13
+# TARA SNAPSHOT - 2026-09-15
 
 Host: eisaxnew (Linux 6.17.0-1020-oracle), /home/ubuntu/.hermes
-Generated: 2026-09-13 03:01 +0400 (Asia/Dubai, UTC+4)
+Generated: 2026-09-15 03:00 +0400 (Asia/Dubai, UTC+4)
 
 ## 1. USER.md
 
@@ -86,13 +86,15 @@ Vault control plane (2026-09-11): Telegram commands /docs /due /pending /summary
 Inbound voice notes (STT) on eisaxnew: `stt.provider = local_command` since 2026-09-12, calling ~/.hermes/scripts/grok_stt.py via HERMES_LOCAL_STT_COMMAND (line in the gateway env file; env changes need a gateway restart, config.yaml ones do not). It authenticates with the Grok CLI subscription credential (~/.grok/auth.json), which is a valid Bearer for api.x.ai/v1/stt, so transcription is FREE; the paid XAI_API_KEY is only an automatic fallback. Token expires ~2h and renews only when the CLI runs, so the script refreshes it with `grok models` (~0.9s, no model tokens) under a file lock. Ahmed's standing instruction: keep voice/STT on the free CLI subscription, not the paid API (local whisper `small` on 127.0.0.1:8178 exists but is weaker on Egyptian dialect, third option only). Full recipe in the voice-message-production skill (references/inbound-stt.md, scripts/grok_stt.py).
 §
 Telegram channel hygiene (Ahmed, 2026-09-12): he does not want to see tool/system progress lines in chat ("انا مش حابب اشوف رسايل السيستم دى"). Applied to BOTH gateways, primary home and the vault profile (display.platforms.telegram.tool_progress off + cleanup_progress true, display.interim_assistant_messages false, agent.gateway_timeout_warning 0, agent.gateway_notify_interval 0). Real failure notices stay on at his request ("لا كويسه سيبيها"). hermes config set stores YAML False; gateway/display_config.py normalises False to "off", resolved per message so no gateway restart is needed. Same principle as the reply-length rule: read-only noise about my own plumbing is never information for him. Full commands and the resolution check live in the hermes-agent-production-setup skill.
+§
+Tool-noise hygiene, second layer (Ahmed angry 2026-09-14): Hermes gateway pushes raw background-process notices straight into Ahmed's Telegram chat ("[Background process <id> finished with exit code 0~ Here's the final output: ...]") whenever display.background_process_notifications is "all" (the shipped default). Fixed by setting that key to off in BOTH ~/.hermes/config.yaml and ~/.hermes/profiles/vault/config.yaml (hermes config set stores YAML False, loader maps False to "off"). The key is re-read per watcher, so no gateway restart needed for new background processes. Related standing rule: long commands (grok image renders, builds) must run in FOREGROUND with a generous timeout, not background+notify_on_complete, because the completion notice lands in his chat as raw tool output.
 ```
 
 ## 3. Self-improvement corrections
 
-Source: /home/ubuntu/.hermes/self_improvement/corrections.json
+### Live file (self_improvement/corrections.json): 1 active entry
 
-Live corrections.json (current active entries):
+Path: ~/.hermes/self_improvement/corrections.json
 
 ```json
 [
@@ -100,15 +102,17 @@ Live corrections.json (current active entries):
     "error_type": "tara_safe_timeout",
     "pattern": "timeout",
     "suggestion": "After a timeout, check whether the operation completed before retrying any action.",
-    "occurrences": 3,
+    "occurrences": 4,
     "first_seen": "2026-09-02T23:03:07.325959",
-    "last_seen": "2026-09-11T20:50:51.234756",
+    "last_seen": "2026-09-13T08:01:37.534801",
     "active": true
   }
 ]
 ```
 
-Historical backup corrections.json.bak-20260831 (pre-restore history, embedded in full):
+### Historical backup (corrections.json.bak-20260831)
+
+Pre-restore history, preserved in full for the archive:
 
 ```json
 [
@@ -242,7 +246,7 @@ Extracted from `AIAgent._build_system_prompt()` in run_agent.py (line 5634) and 
 The method runs once per session and the result is cached on `_cached_system_prompt`, rebuilt only after context compression events. Layers, in order:
 
 1. Agent identity: the persona file (SOUL.md in the Hermes home dir) when present and not skipped; otherwise the hardcoded `DEFAULT_AGENT_IDENTITY` fallback from prompt_builder.py. `load_soul_identity` also forces it when context files are otherwise skipped (cron mode).
-2. HERMES_AGENT_HELP_GUIDANCE: pointer to load the `تارا-agent` skill (skill_view name 'hermes-agent') before answering questions about تارا Agent itself, plus the docs URL.
+2. HERMES_AGENT_HELP_GUIDANCE: pointer to load the `hermes-agent` skill (skill_view name 'hermes-agent') before answering questions about the agent itself, plus the docs URL.
 3. Tool-aware behavioral guidance (joined, only for loaded tools): MEMORY_GUIDANCE, SESSION_SEARCH_GUIDANCE, SKILLS_GUIDANCE, and KANBAN_GUIDANCE (the kanban lifecycle block, only when a `kanban_show` tool is present, i.e. dispatcher-spawned workers; normal chat never sees it).
 4. COMPUTER_USE_GUIDANCE as its own block when a `computer_use` tool is loaded (multi-paragraph macOS guidance).
 5. Nous subscription prompt, appended when `build_nous_subscription_prompt` returns content.
@@ -327,10 +331,10 @@ When Ahmed asks you to check a file, run a command, or do something on the serve
 
 ### Prompt constants summary
 
-Key guidance constants in agent/prompt_builder.py (lines ~134-263):
+Key guidance constants in agent/prompt_builder.py (lines ~134-354, verified unchanged this run):
 
-- DEFAULT_AGENT_IDENTITY (line 134): fallback persona used only when no SOUL.md is loaded. Identifies the agent as تارا (Tara), built for Ahmed and the EisaX team; helpful, knowledgeable, direct; targeted and efficient.
-- HERMES_AGENT_HELP_GUIDANCE (line 144): load the hermes-agent skill before answering تارا Agent configuration questions; docs at hermes-agent.nousresearch.com/docs.
+- DEFAULT_AGENT_IDENTITY (line 134): fallback persona used only when no SOUL.md is loaded. Identifies the agent as Tara, built for Ahmed and the EisaX team; helpful, knowledgeable, direct; targeted and efficient.
+- HERMES_AGENT_HELP_GUIDANCE (line 144): load the hermes-agent skill before answering agent-configuration questions; docs at hermes-agent.nousresearch.com/docs.
 - MEMORY_GUIDANCE (line 150): save durable facts (preferences, environment, conventions) as compact declarative statements; prefer entries that reduce future steering; never save task progress or stale artifacts; save procedures as skills instead; declarative phrasing, never imperative.
 - SESSION_SEARCH_GUIDANCE (line 173): use session_search to recall cross-session context before asking the user to repeat themselves.
 - SKILLS_GUIDANCE (line 179): after complex tasks or tricky fixes, save the approach as a skill; patch outdated skills immediately; unmaintained skills become liabilities.
@@ -341,7 +345,7 @@ Key guidance constants in agent/prompt_builder.py (lines ~134-263):
 
 ## 5. Skills list (live)
 
-Live skills_list count: 155 (grouped by category; 16 root-level skills returned with a null category are bucketed under uncategorized)
+Live skills_list count: 154 (grouped by category; 16 root-level skills returned with a null category are bucketed under uncategorized)
 
 ### uncategorized (16)
 - animejs
@@ -371,7 +375,7 @@ Live skills_list count: 155 (grouped by category; 16 root-level skills returned 
 ### content (1)
 - ah-eisa-publishing
 
-### creative (21)
+### creative (20)
 - ai-video-reel-production
 - architecture-diagram
 - ascii-art
@@ -391,7 +395,6 @@ Live skills_list count: 155 (grouped by category; 16 root-level skills returned 
 - pretext
 - sketch
 - songwriting-and-ai-music
-- tara-image-generation-qa
 - touchdesigner-mcp
 
 ### data-science (1)
@@ -549,8 +552,8 @@ chroma.sqlite3: size=9351168 mtime=2026-05-19 10:26:43
 knowledge_graph.db: size=57344 mtime=2026-05-18 22:41:07
 ```
 
-Note: the probe's "palace total size" line sums only top-level files (9.0 MB) and undercounts the chroma segment data, which lives in the UUID subdirectory c5674ad0-0728-4e39-8953-8d2bfe24daa5; `du -sh` on the palace dir reports 11M.
+Note: the probe's "palace total size" line sums only top-level files and undercounts the chroma segment data, which lives in the UUID subdirectory c5674ad0-0728-4e39-8953-8d2bfe24daa5; `du -sh` on the palace dir reports the larger figure.
 
 ---
 
-Generated by the Tara Snapshot cron job (agent-state-snapshot skill) on 2026-09-13. Sources: USER.md, MEMORY.md, self_improvement/corrections.json (+ corrections.json.bak-20260831), SOUL.md, run_agent.py _build_system_prompt, agent/prompt_builder.py constants, live skills_list (155 skills), palace DB probe. Backup repo: git@github.com:ah-eisa/Tara_backup.git
+Generated by the Tara Snapshot cron job (agent-state-snapshot skill) on 2026-09-15. Sources: USER.md, MEMORY.md, self_improvement/corrections.json (+ corrections.json.bak-20260831), SOUL.md, run_agent.py _build_system_prompt, agent/prompt_builder.py constants, live skills_list (154 skills), palace DB probe. Backup repo: git@github.com:ah-eisa/Tara_backup.git
