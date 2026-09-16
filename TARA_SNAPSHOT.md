@@ -1,7 +1,7 @@
-# TARA SNAPSHOT - 2026-09-15
+# TARA SNAPSHOT - 2026-09-17
 
 Host: eisaxnew (Linux 6.17.0-1020-oracle), /home/ubuntu/.hermes
-Generated: 2026-09-15 03:00 +0400 (Asia/Dubai, UTC+4)
+Generated: 2026-09-17 03:00 +0400 (Asia/Dubai, UTC+4)
 
 ## 1. USER.md
 
@@ -59,7 +59,7 @@ Surfaces:
 §
 Companion crons (Dubai, 2026-09-07): Market Brief 08:00 (was 03:00), صباح الخير 08:30, silence 14:00/20:00 (SILENT unless alert), مفاجأة Wed/Sat 15:00, مساء الخير 23:00. Professional tone. 3h QUIETED. daily-context feeds them.
 §
-TMD marketing system (فريق التسويق): tara_marketing package at /home/ubuntu/.hermes/marketing; brand E-Quiz (slug equiz, quiz.eisax.com). Cron: "TMD hourly mock metrics" (job 7c3ce9975b8f, hourly, no_agent) + "TMD daily marketing summary" (job ef6b8d5df539, 03:15 Dubai, no_agent); scripts tmd-hourly.py/tmd-daily.py in ~/.hermes/scripts/; output in ~/.hermes/cron/output/. Health check via tara-marketing skill's scripts/tmd-healthcheck.py. Palace memory tools fail post-restore: chromadb missing — needs reinstall (pip install chromadb into the agent venv) before palace_search works.
+Palace memory is LIVE again (fixed 2026-09-16): chromadb was missing from the agent venv after the restore, reinstalled with `uv pip install --python ~/.hermes/hermes-agent/venv/bin/python chromadb` (that venv is uv-managed and has NO pip). Collection palace_drawers = 1015 drawers (1002 of them May-2026 conversation logs) + knowledge graph 40 entities. Embeddings = ONNX MiniLM-L6-v2, 384-dim cosine, cache at ~/.cache/chroma/onnx_models. Pitfall: on chromadb 1.x never pass an explicit embedding function to get_collection('palace_drawers') (raises "embedding function conflict: new: onnx_mini_lm_l6_v2 vs persisted: default"); omit the EF on get, supply it only on create.
 §
 Dream9 web (tara.brevoya.com) since 2026-09-02 (Codex fixes): /api/chat routes via hermes-client askHermes to 127.0.0.1:8642 — web chat is Hermes-backed (memory/tools/SOUL), not direct DeepSeek anymore. Basic auth enforced on all /api/* endpoints + WS via dream9/security.js (401 without creds; DREAM9_AUTH_USER/PASSWORD live in the node process env at /proc/<pid>/environ). config.yaml cron.wrap_response=false (set 2026-09-02): cron deliveries arrive WITHOUT the "Cronjob Response:" header/footer.
 §
@@ -88,6 +88,12 @@ Inbound voice notes (STT) on eisaxnew: `stt.provider = local_command` since 2026
 Telegram channel hygiene (Ahmed, 2026-09-12): he does not want to see tool/system progress lines in chat ("انا مش حابب اشوف رسايل السيستم دى"). Applied to BOTH gateways, primary home and the vault profile (display.platforms.telegram.tool_progress off + cleanup_progress true, display.interim_assistant_messages false, agent.gateway_timeout_warning 0, agent.gateway_notify_interval 0). Real failure notices stay on at his request ("لا كويسه سيبيها"). hermes config set stores YAML False; gateway/display_config.py normalises False to "off", resolved per message so no gateway restart is needed. Same principle as the reply-length rule: read-only noise about my own plumbing is never information for him. Full commands and the resolution check live in the hermes-agent-production-setup skill.
 §
 Tool-noise hygiene, second layer (Ahmed angry 2026-09-14): Hermes gateway pushes raw background-process notices straight into Ahmed's Telegram chat ("[Background process <id> finished with exit code 0~ Here's the final output: ...]") whenever display.background_process_notifications is "all" (the shipped default). Fixed by setting that key to off in BOTH ~/.hermes/config.yaml and ~/.hermes/profiles/vault/config.yaml (hermes config set stores YAML False, loader maps False to "off"). The key is re-read per watcher, so no gateway restart needed for new background processes. Related standing rule: long commands (grok image renders, builds) must run in FOREGROUND with a generous timeout, not background+notify_on_complete, because the completion notice lands in his chat as raw tool output.
+§
+Service watchdog on eisaxnew (built 2026-09-15 after an unexplained-to-Ahmed reboot): /opt/tara-watchdog/watchdog.py run by systemd timer tara-watchdog.timer every 60s (OnBootSec=120) as root. It monitors 7 system units (docker, nginx, dream9, open-llm-vtuber, whisper-stt, cloudflared-tara, filebrowser), 2 user units (hermes-gateway, hermes-gateway-vault, which live under systemctl --user with linger enabled), 9 docker containers (mailu x8 + ainvest-academy), and 6 HTTP endpoints incl. https://tara.brevoya.com. It auto-restarts systemd and docker targets (max 3 per hour each) and alerts Ahmed by POSTing directly to the Telegram Bot API, so alerting survives Hermes, nginx or the tunnel being down. Silent when healthy; state at /var/lib/tara-watchdog/state.json (mode 600), sent-alert log at /var/log/tara-watchdog.log; disk alert at 85 percent, RAM alert below 1GB, re-alert every 30 min, no down-alerts while uptime under 180s. Blind spot that remains: a total VM or network outage needs an external monitor. Recipe plus deployable script live in the service-watchdog-telegram skill.
+§
+grok CLI on eisaxnew must stay pinned to 1.0.24: the 1.0.30 build crashes with Illegal instruction (exit 132) on every real call (--single, models) even though --version works, and that silently breaks grok_stt.py's token refresh, which inbound voice notes depend on. Install a specific version with `bash /tmp/grok_install.sh 1.0.24` from https://x.ai/cli/install.sh. Detail plus verification commands are in the grok-cli skill.
+§
+Skill-library pointers (2026-09-16): palace/chromadb recovery knowledge (uv-managed venv has no pip; the get_collection embedding-function conflict; write+read round-trip verification) lives in the hermes-agent-production-setup skill at references/post-restore-recovery.md, because skill_manage edits to the memory-provider-plugin dir get blocked by the security scanner (its existing SKILL.md/reference content trips the supply-chain rule). Vault search behaviour and the Arabic-over-OCR search gap live in human-in-the-loop-extraction at references/arabic-search-over-ocr-corpus.md.
 ```
 
 ## 3. Self-improvement corrections
@@ -102,9 +108,9 @@ Path: ~/.hermes/self_improvement/corrections.json
     "error_type": "tara_safe_timeout",
     "pattern": "timeout",
     "suggestion": "After a timeout, check whether the operation completed before retrying any action.",
-    "occurrences": 4,
+    "occurrences": 6,
     "first_seen": "2026-09-02T23:03:07.325959",
-    "last_seen": "2026-09-13T08:01:37.534801",
+    "last_seen": "2026-09-15T21:16:00.190076",
     "active": true
   }
 ]
@@ -345,7 +351,7 @@ Key guidance constants in agent/prompt_builder.py (lines ~134-354, verified unch
 
 ## 5. Skills list (live)
 
-Live skills_list count: 154 (grouped by category; 16 root-level skills returned with a null category are bucketed under uncategorized)
+Live skills_list count: 156 (grouped by category; 16 root-level skills returned with a null category are bucketed under uncategorized)
 
 ### uncategorized (16)
 - animejs
@@ -400,7 +406,7 @@ Live skills_list count: 154 (grouped by category; 16 root-level skills returned 
 ### data-science (1)
 - jupyter-live-kernel
 
-### devops (21)
+### devops (22)
 - agent-state-snapshot
 - browserbase-cdp-direct-arm64
 - browserbase-cloudflare-troubleshoot
@@ -418,6 +424,7 @@ Live skills_list count: 154 (grouped by category; 16 root-level skills returned 
 - serve-static-files-nginx
 - server-disk-space-analysis
 - server-health-check-arabic
+- service-watchdog-telegram
 - stealth-agent-browser-mcp-arm64
 - stealth-agent-browser-mcp-testing
 - telegram-bot-conflict-fix
@@ -494,12 +501,13 @@ Live skills_list count: 154 (grouped by category; 16 root-level skills returned 
 - tara-scheduled-messages
 - teams-meeting-pipeline
 
-### research (5)
+### research (6)
 - arxiv
 - blogwatcher
 - llm-wiki
 - polymarket
 - research-paper-writing
+- uae-government-open-data
 
 ### smart-home (1)
 - openhue
@@ -542,18 +550,18 @@ External memory provider (palace) probe output from scripts/palace_stats.py:
 ```text
 == Palace: /home/ubuntu/.hermes/palace ==
 collection: id=d814d6a9-add8-4977-acad-44f1a57ff1f1 name=palace_drawers
-embeddings: 1014
+embeddings: 1028
 kg tables: ['entities', 'sqlite_sequence', 'relationships', 'tunnels']
-entities count: 37
-relationships count: 113
+entities count: 40
+relationships count: 119
 tunnels count: 0
 palace total size: 9.0 MB
-chroma.sqlite3: size=9351168 mtime=2026-05-19 10:26:43
-knowledge_graph.db: size=57344 mtime=2026-05-18 22:41:07
+chroma.sqlite3: size=9351168 mtime=2026-09-16 20:19:38.462864
+knowledge_graph.db: size=57344 mtime=2026-09-16 19:59:43.614787
 ```
 
 Note: the probe's "palace total size" line sums only top-level files and undercounts the chroma segment data, which lives in the UUID subdirectory c5674ad0-0728-4e39-8953-8d2bfe24daa5; `du -sh` on the palace dir reports the larger figure.
 
 ---
 
-Generated by the Tara Snapshot cron job (agent-state-snapshot skill) on 2026-09-15. Sources: USER.md, MEMORY.md, self_improvement/corrections.json (+ corrections.json.bak-20260831), SOUL.md, run_agent.py _build_system_prompt, agent/prompt_builder.py constants, live skills_list (154 skills), palace DB probe. Backup repo: git@github.com:ah-eisa/Tara_backup.git
+Generated by the Tara Snapshot cron job (agent-state-snapshot skill) on 2026-09-17. Sources: USER.md, MEMORY.md, self_improvement/corrections.json (+ corrections.json.bak-20260831), SOUL.md, run_agent.py _build_system_prompt, agent/prompt_builder.py constants, live skills_list (156 skills), palace DB probe. Backup repo: git@github.com:ah-eisa/Tara_backup.git
