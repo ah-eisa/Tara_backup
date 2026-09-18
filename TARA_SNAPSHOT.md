@@ -1,7 +1,7 @@
-# TARA SNAPSHOT - 2026-09-17
+# TARA SNAPSHOT - 2026-09-19
 
 Host: eisaxnew (Linux 6.17.0-1020-oracle), /home/ubuntu/.hermes
-Generated: 2026-09-17 03:00 +0400 (Asia/Dubai, UTC+4)
+Generated: 2026-09-19 03:01 +0400 (Asia/Dubai, UTC+4)
 
 ## 1. USER.md
 
@@ -46,16 +46,7 @@ Voice: tts.provider = `xai` (Grok TTS) since 2026-09-10. Ahmed CHOSE voice_id `e
 §
 Stack policy (Ahmed, 2026-09-10): Grok/xAI is the default for three domains — images (image_gen.provider=xai / grok CLI reference-lock for Tara), voice (tts.provider=xai, voice eve), and coding (delegate code work to the grok CLI at ~/.grok/bin/grok, v1.0.24, `--single "<prompt>" --model grok-4.6`). Chat model stays DeepSeek (grok-4.6 token price is far higher); don't move it unless he asks. Learned 2026-09-10: xAI video API = POST https://api.x.ai/v1/videos/generations then poll GET /v1/videos/{request_id}; costs per second 480p $0.80 / 720p $1.40 / 1080p $2.50 on grok-imagine-video-1.5, so always quote cost before rendering; a 6s 480p clip can take 13+ min. Helper scripts: grok_i2v.py, build_reel.py, tts_with_retry.py, tara_vision_qa.py in ~/.hermes/scripts/.
 §
-Surfaces:
-- Hermes home: ~/.hermes/  Gateway Telegram home chat 933252341. API 127.0.0.1:8642
-- Dream9 chatbot + dashboard: https://tara.brevoya.com (Cloudflare Tunnel → :3030)
-- File browser: https://brevoya.com/files (login, root scope as ubuntu, exec/share disabled)
-- VTuber: /opt/Open-LLM-VTuber port 12393 (mao_pro model, not custom Tara)
-- Cloudflare DNS brevoya.com zone 235d71b22fd025b49aef5178ba59aae4, tunnel ed897e33-d725-413f-b8f2-c3b3e1096fa7
-- Zora: /opt/zora (legacy FastAPI chat)
-- Hyperframes: /opt/hyperframes
-- This host: public 145.241.123.201, internal 10.0.0.96, hostname eisaxnew, TZ Asia/Dubai. Old server2 129.151.148.2
-- X/Twitter Tara (2026-09-09): xurl CLI ~/.local/bin/xurl, app tara-eisax, @TaraAhmede (URN 2097668519257100288), tokens ~/.xurl/auth.yml. Free tier: posting OK, reads 402 credits-depleted. Tara LinkedIn (tara-ahmed1) RESTRICTED 2026-09-09, ID demanded, Ahmed refused identity tie → abandoned (linkedin_token_tara.json dead). Persona → X/IG/TikTok, NOT LinkedIn person profiles.
+Tara LinkedIn (tara-ahmed1) RESTRICTED 2026-09-09, ID demanded, Ahmed refused identity tie → abandoned (linkedin_token_tara.json returns 401 RESTRICTED_MEMBER, permanently dead). Persona → X/IG/TikTok, NOT LinkedIn person profiles. Only live LinkedIn path = Ahmed's personal profile via ~/.hermes/linkedin_token.json (has w_member_social); both tokens minted 2026-09-02 with 60-day life, so his needs a fresh OAuth round before ~2026-11-01. His standing instruction (2026-09-17): never publish without an explicit "انشره", and never read his inbox/notifications/connections (the Playwright messages/send-dm commands stay unused).
 §
 Companion crons (Dubai, 2026-09-07): Market Brief 08:00 (was 03:00), صباح الخير 08:30, silence 14:00/20:00 (SILENT unless alert), مفاجأة Wed/Sat 15:00, مساء الخير 23:00. Professional tone. 3h QUIETED. daily-context feeds them.
 §
@@ -63,7 +54,7 @@ Palace memory is LIVE again (fixed 2026-09-16): chromadb was missing from the ag
 §
 Dream9 web (tara.brevoya.com) since 2026-09-02 (Codex fixes): /api/chat routes via hermes-client askHermes to 127.0.0.1:8642 — web chat is Hermes-backed (memory/tools/SOUL), not direct DeepSeek anymore. Basic auth enforced on all /api/* endpoints + WS via dream9/security.js (401 without creds; DREAM9_AUTH_USER/PASSWORD live in the node process env at /proc/<pid>/environ). config.yaml cron.wrap_response=false (set 2026-09-02): cron deliveries arrive WITHOUT the "Cronjob Response:" header/footer.
 §
-LinkedIn daily pipeline (since 2026-09-03): cron "LinkedIn daily post prep 9am" (job cf9990b29641, 09:00 Dubai, deliver origin) chains via context_from from Market Brief job 1b0252e20fae, outputs an ENGLISH post draft for approval. Publish only after Ahmed says "انشره": write file under ~/.hermes/linkedin_posts/, dry-run, publish via linkedin_publish.py, verify. Weekends skipped. Format spec lives in arabic-market-briefing skill references/linkedin-daily-post-format.md (linkedin-api-publishing skill dir is scanner-blocked).
+LinkedIn daily pipeline (since 2026-09-03, retimed 2026-09-17 to sit inside DeepSeek off-peak): cron "LinkedIn daily post prep 8:25am" (job cf9990b29641, 08:25 Dubai, deliver origin) chains via context_from from Market Brief job 1b0252e20fae (now 08:05 Dubai), outputs an ENGLISH post draft for approval.
 §
 ah-eisa.com publishing (wired 2026-09-03): skill content/ah-eisa-publishing runs scripts/publish_article.py which POSTs {title, body, category, excerpt, tags, slug, date, reading_time} to https://ah-eisa.com/api/publish with X-Tara-Secret (env override TARA_PUBLISH_SECRET unset; script has hardcoded default → skill dir is SCANNER-BLOCKED for skill_manage edits until secret moves to env only; route doc updates elsewhere and note it). Server commits each article to github.com/ah-eisa/ah-eisa-site main as "feat(tara): publish article '<title>'". Articles: ENGLISH only, institutional tone, Ahmed Eisa CMA voice injected server-side, one of 8 categories, NEVER em/en dashes (grep-check before publish). Length ≈ 250 wpm: 5 min → 1200-1400 words, 10 min → 2400-2800. --date YYYY-MM-DD backdates (Ahmed commonly asks; renders on live page) and --reading-time added to script 2026-09-03. Verify after publish: curl live URL expect HTTP 200 + grep date/read-time in HTML; git fetch repo, expect feat(tara) commit with correct frontmatter. Do not duplicate existing topics (check content/insights/ first). /insights/ 403 was fixed by origin nginx edit.
 §
@@ -94,6 +85,10 @@ Service watchdog on eisaxnew (built 2026-09-15 after an unexplained-to-Ahmed reb
 grok CLI on eisaxnew must stay pinned to 1.0.24: the 1.0.30 build crashes with Illegal instruction (exit 132) on every real call (--single, models) even though --version works, and that silently breaks grok_stt.py's token refresh, which inbound voice notes depend on. Install a specific version with `bash /tmp/grok_install.sh 1.0.24` from https://x.ai/cli/install.sh. Detail plus verification commands are in the grok-cli skill.
 §
 Skill-library pointers (2026-09-16): palace/chromadb recovery knowledge (uv-managed venv has no pip; the get_collection embedding-function conflict; write+read round-trip verification) lives in the hermes-agent-production-setup skill at references/post-restore-recovery.md, because skill_manage edits to the memory-provider-plugin dir get blocked by the security scanner (its existing SKILL.md/reference content trips the supply-chain rule). Vault search behaviour and the Arabic-over-OCR search gap live in human-in-the-loop-extraction at references/arabic-search-over-ocr-corpus.md.
+§
+API spend / balance questions ("باقي كام في الـ API", "الرصيد", "يكفي لحد امتى"): DeepSeek exposes GET https://api.deepseek.com/user/balance (fields total_balance / granted_balance / topped_up_balance; granted = free promo credit, spent first, not purchasable). True burn must be priced from ~/.hermes/state.db plus profiles/*/state.db `sessions` rows (input/output/cache_read tokens, started_at is a float unix epoch), because hermes insights reports estimated_cost_usd 0.0. The primary profile and profiles/vault share the same DeepSeek key. Method, pricing table and runnable script: skill llm-api-spend-and-runway (devops).
+§
+Local LLMs on eisaxnew: tried and fully REMOVED 2026-09-18 on Ahmed's instruction (llama.cpp, GGUFs, llama-local-llm.service, the custom_providers entry, and the emergency profile all gone; nothing local runs now). Conclusions that should stop this being re-litigated: a sub-64K local model can NEVER be the agent fallback (Hermes hardcodes MINIMUM_CONTEXT_LENGTH=64_000 and the config override only raises a mis-detected value; at 64K a real turn took 8m20s and timed out before emitting a word, because a full Tara prompt is ~36K tokens against ~31 tok/s prefill). Measured Arabic quality at 2-4B: MiniCPM5-2B fluent but wrong (deleted), Qwen3-4B-Instruct-2507 the only decent one (2.3GB, 11.6 tok/s), gemma-3-4b worse and mislabels, Qwen3-8B smartest but 6.3 tok/s. What replaced it for emergencies: `/emergency`, `/grok`, `/deepseek` quick_commands type exec in the main config (no LLM in the path, gateway re-reads config per message so no restart needed) driving ~/.hermes/scripts/emergency_check.sh and switch_model.sh. Ollama was never installed on this box. Full benchmark tables and the re-install recipe live in the llama-cpp skill at references/eisaxnew-local-llm.md.
 ```
 
 ## 3. Self-improvement corrections
@@ -351,7 +346,7 @@ Key guidance constants in agent/prompt_builder.py (lines ~134-354, verified unch
 
 ## 5. Skills list (live)
 
-Live skills_list count: 156 (grouped by category; 16 root-level skills returned with a null category are bucketed under uncategorized)
+Live skills_list count: 157 (grouped by category; 16 root-level skills returned with a null category are bucketed under uncategorized)
 
 ### uncategorized (16)
 - animejs
@@ -406,7 +401,7 @@ Live skills_list count: 156 (grouped by category; 16 root-level skills returned 
 ### data-science (1)
 - jupyter-live-kernel
 
-### devops (22)
+### devops (23)
 - agent-state-snapshot
 - browserbase-cdp-direct-arm64
 - browserbase-cloudflare-troubleshoot
@@ -417,6 +412,7 @@ Live skills_list count: 156 (grouped by category; 16 root-level skills returned 
 - hyperframes-arm64-rendering
 - kanban-orchestrator
 - kanban-worker
+- llm-api-spend-and-runway
 - nginx-access-log-user-monitor
 - nginx-user-activity-monitor
 - production-system-monitoring-gap-analysis
@@ -550,13 +546,13 @@ External memory provider (palace) probe output from scripts/palace_stats.py:
 ```text
 == Palace: /home/ubuntu/.hermes/palace ==
 collection: id=d814d6a9-add8-4977-acad-44f1a57ff1f1 name=palace_drawers
-embeddings: 1028
+embeddings: 1062
 kg tables: ['entities', 'sqlite_sequence', 'relationships', 'tunnels']
 entities count: 40
 relationships count: 119
 tunnels count: 0
 palace total size: 9.0 MB
-chroma.sqlite3: size=9351168 mtime=2026-09-16 20:19:38.462864
+chroma.sqlite3: size=9351168 mtime=2026-09-18 08:34:10.080680
 knowledge_graph.db: size=57344 mtime=2026-09-16 19:59:43.614787
 ```
 
@@ -564,4 +560,4 @@ Note: the probe's "palace total size" line sums only top-level files and underco
 
 ---
 
-Generated by the Tara Snapshot cron job (agent-state-snapshot skill) on 2026-09-17. Sources: USER.md, MEMORY.md, self_improvement/corrections.json (+ corrections.json.bak-20260831), SOUL.md, run_agent.py _build_system_prompt, agent/prompt_builder.py constants, live skills_list (156 skills), palace DB probe. Backup repo: git@github.com:ah-eisa/Tara_backup.git
+Generated by the Tara Snapshot cron job (agent-state-snapshot skill) on 2026-09-19. Sources: USER.md, MEMORY.md, self_improvement/corrections.json (+ corrections.json.bak-20260831), SOUL.md, run_agent.py _build_system_prompt, agent/prompt_builder.py constants, live skills_list (157 skills), palace DB probe. Backup repo: git@github.com:ah-eisa/Tara_backup.git
