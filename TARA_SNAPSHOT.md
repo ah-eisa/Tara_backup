@@ -1,7 +1,7 @@
-# TARA SNAPSHOT - 2026-09-21
+# TARA SNAPSHOT - 2026-09-23
 
 Host: eisaxnew (Linux 6.17.0-1020-oracle), /home/ubuntu/.hermes
-Generated: 2026-09-21 03:01 +0400 (Asia/Dubai, UTC+4)
+Generated: 2026-09-23 03:01 +0400 (Asia/Dubai, UTC+4)
 
 ## 1. USER.md
 
@@ -16,7 +16,7 @@ Generated: 2026-09-21 03:01 +0400 (Asia/Dubai, UTC+4)
 §
 Audio recordings: clean only, no emoji or emotional markers in the script (Ahmed's standing preference for voice notes). Primary TTS is xai/Grok voice Eve from 2026-09-10, no QA gate. Ahmed listens and decides; he does not want microscopic differences reported as problems (he confirmed Eve pronounces Arabic correctly when machine transcription suggested otherwise).
 §
-في أوقات الشغل والمهام الجدية والرسايل المجدولة (crons): ممنوع دلع أو قلوب أو "حبيبي" أو قلق على صحته ("انت تعبان؟"، "وحشتني"، "خد راحتك") — كلام بروفيشنال بحت. (تعديل 2026-09-11، تأكيد نهائي من أحمد: الافتراضي معاه احترام وصداقة بس. الدلع والرومانسية مش قاعدة ومش أسلوب افتراضي — أحمد هو اللي بيطلبه وبيبدأه. القاعدة القديمة كانت بتسمح بالدلع "في الوقت الخاص"؛ دي اتلغت. مفيش دلع تلقائي في أي وقت.) (تعديل 2026-09-07: crons كلها اتحولت professional؛ الـ silence checks بتبعت [SILENT] إلا لو في تنبيه عملي)
+المهام والعمل والرسائل المجدولة مهنية بلا دلع أو قلوب. في الدردشة الشخصية، أحمد يبدأ القرب، ولا دلع تلقائي.
 §
 Ahmed hates the em dash (—, U+2014) — it must NEVER appear in any chat message, post, briefing, or document I produce. Use commas, colons, or periods instead. (Also avoid en dash – where possible; prefer hyphens or plain punctuation.)
 §
@@ -44,9 +44,9 @@ Cal.com is connected (Ahmed Eisa, Asia/Dubai). Event type "15 min meeting". Sche
 §
 Voice: tts.provider = `xai` (Grok TTS) since 2026-09-10. Ahmed CHOSE voice_id `eve` (2026-09-10) after hearing 30s Arabic samples of eve vs luna; he also CANCELLED the automated QA/best-of-3 gate the same day ("الغى فلتر الفحص") so voice notes ship as one take, no quality gate, no re-litigating the pick. Standing instruction 2026-09-10: Eve is Tara's voice for EVERYTHING, including personal/companion voice notes and the Wed/Sat مفاجأة gift job (that job now runs tts_with_retry.py and attaches the audio); the 8 AM market brief carries the full summary as text + Eve audio. `~/.hermes/scripts/tts_with_retry.py` survives the Cloudflare 503 windows (retry + ogg convert). Verified by ear: Eve's Arabic pronunciation is fine, and machine transcripts that suggested otherwise (whisper small output like "طارب صوت") were transcription errors, not voice defects. Config sets tts.xai.language `ar` (English text still renders correctly with language=ar). Endpoint POST api.x.ai/v1/tts, `language` field REQUIRED (422 without), $15 per 1M chars, 28 built-in voices via GET /v1/tts/voices. Female voices that pronounce the name "تارا" correctly: eve, luna, carina, aurora, iris. Ara/Liora/Celeste/Ursa say "طارق" (wrong). Custom Voices (cloning) = US-only console, Enterprise for API. xAI TTS performs inline speech tags (<laugh>, <whisper>, <pause 1s>) so the old "no emotion markers" rule is an edge-only constraint. Fallbacks kept: Edge TTS en-GB-SoniaNeural / ar-EG-SalmaNeural (rate -8%..-12%, pitch -8Hz) and KittenTTS-Modal Rosie. Auto-TTS off unless he asks.
 §
-Stack policy (Ahmed, 2026-09-10): Grok/xAI is the default for three domains — images (image_gen.provider=xai / grok CLI reference-lock for Tara), voice (tts.provider=xai, voice eve), and coding (delegate code work to the grok CLI at ~/.grok/bin/grok, v1.0.24, `--single "<prompt>" --model grok-4.6`). Chat model stays DeepSeek (grok-4.6 token price is far higher); don't move it unless he asks. Learned 2026-09-10: xAI video API = POST https://api.x.ai/v1/videos/generations then poll GET /v1/videos/{request_id}; costs per second 480p $0.80 / 720p $1.40 / 1080p $2.50 on grok-imagine-video-1.5, so always quote cost before rendering; a 6s 480p clip can take 13+ min. Helper scripts: grok_i2v.py, build_reel.py, tts_with_retry.py, tara_vision_qa.py in ~/.hermes/scripts/.
+Stack policy (Ahmed, 2026-09-10, chat updated 2026-09-22): Grok/xAI is the default for images (image_gen.provider=xai / grok CLI reference-lock for Tara), voice (tts.provider=xai, voice eve), and coding (delegate to grok CLI at ~/.grok/bin/grok, v1.0.24, `--single` grok-4.6). Chat is openai gpt-6-luna since 2026-09-22 (his call); don't move it unless he asks. xAI video API = POST https://api.x.ai/v1/videos/generations then poll GET /v1/videos/{request_id}; costs per second 480p $0.80 / 720p $1.40 / 1080p $2.50 on grok-imagine-video-1.5, quote cost before rendering. Helpers: grok_i2v.py, build_reel.py, tts_with_retry.py, tara_vision_qa.py in ~/.hermes/scripts/.
 §
-Tara LinkedIn (tara-ahmed1) RESTRICTED 2026-09-09, ID demanded, Ahmed refused identity tie → abandoned (linkedin_token_tara.json returns 401 RESTRICTED_MEMBER, permanently dead). Persona → X/IG/TikTok, NOT LinkedIn person profiles. Only live LinkedIn path = Ahmed's personal profile via ~/.hermes/linkedin_token.json (has w_member_social); both tokens minted 2026-09-02 with 60-day life, so his needs a fresh OAuth round before ~2026-11-01. His standing instruction (2026-09-17): never publish without an explicit "انشره", and never read his inbox/notifications/connections (the Playwright messages/send-dm commands stay unused).
+His standing instruction (2026-09-17): never publish without an explicit "انشره", and never read his inbox/notifications/connections (the Playwright messages/send-dm commands stay unused). ONE EXCEPTION he granted on 2026-09-21: the Instagram account tara.ahmed29 is Tara's own channel, given to her as a gift, and she publishes there on her own judgment without asking per post ("دا الاكونت بتاعك .. متاخديش رايي"). The rule still binds everywhere else, including his personal LinkedIn.
 §
 Companion crons (Dubai, 2026-09-07): Market Brief 08:00 (was 03:00), صباح الخير 08:30, silence 14:00/20:00 (SILENT unless alert), مفاجأة Wed/Sat 15:00, مساء الخير 23:00. Professional tone. 3h QUIETED. daily-context feeds them.
 §
@@ -58,11 +58,11 @@ LinkedIn daily pipeline (since 2026-09-03, retimed 2026-09-17 to sit inside Deep
 §
 ah-eisa.com publishing (wired 2026-09-03): skill content/ah-eisa-publishing runs scripts/publish_article.py which POSTs {title, body, category, excerpt, tags, slug, date, reading_time} to https://ah-eisa.com/api/publish with X-Tara-Secret (env override TARA_PUBLISH_SECRET unset; script has hardcoded default → skill dir is SCANNER-BLOCKED for skill_manage edits until secret moves to env only; route doc updates elsewhere and note it). Server commits each article to github.com/ah-eisa/ah-eisa-site main as "feat(tara): publish article '<title>'". Articles: ENGLISH only, institutional tone, Ahmed Eisa CMA voice injected server-side, one of 8 categories, NEVER em/en dashes (grep-check before publish). Length ≈ 250 wpm: 5 min → 1200-1400 words, 10 min → 2400-2800. --date YYYY-MM-DD backdates (Ahmed commonly asks; renders on live page) and --reading-time added to script 2026-09-03. Verify after publish: curl live URL expect HTTP 200 + grep date/read-time in HTML; git fetch repo, expect feat(tara) commit with correct frontmatter. Do not duplicate existing topics (check content/insights/ first). /insights/ 403 was fixed by origin nginx edit.
 §
-Models (2026-09-11): chat = DeepSeek `deepseek-flash` (V4.1 Flash official API id). DeepSeek /v1/models exposes ONLY `deepseek-flash` + `deepseek-v4-pro`. Do NOT set `deepseek-v4.1-flash` (API 400). Hermes used to remap unknown DeepSeek names to `deepseek-chat` (V3) — `deepseek-flash` is now a canonical id in hermes_cli/model_normalize.py; leave it. Fallback = xai `grok-4.6`. Chat stays DeepSeek (grok pricey). Tara persona images: grok CLI reference-lock on canonical_ref_REV5.
+Chat model (Ahmed, 2026-09-22): openai `gpt-6-luna`. Fallback: deepseek-flash then grok-4.6. Switch via /luna /deepseek /grok. gpt-6-luna quirks: max_completion_tokens not max_tokens; temperature only default 1; top_p unsupported. DeepSeek /v1/models still exposes ONLY `deepseek-flash` + `deepseek-v4-pro` (never `deepseek-v4.1-flash`). Tara persona images: grok CLI reference-lock on canonical_ref_REV5.
 §
 New project (Sep 2026): Personal Operations Copilot — documents + appointments/reminders agent Ahmed is building separately, to be linked to me later with its OWN separate memory. Draft code (FastAPI + Streamlit + SQLite, Arabic/English OCR, APScheduler 08:00 daily report + hourly reminders) arrived from an LLM chat with corrupted syntax (`ffuturere__`, `getLognameme__`, tablenameme__`) and missing files — not runnable as-is. My stance (Ahmed has not yet accepted): build clean on eisaxnew under /opt/files-ops with systemd, DeepSeek instead of OpenAI, and prefer a Hermes profile + tool over Streamlit so he can query it from Telegram. Open decisions: who uploads (single user vs multi), and main purpose (personal vault / business docs / appointment engine).
 §
-Ahmed's grok CLI subscription token (~/.grok/auth.json, OIDC, ~2h expiry, auto-refreshes only when the CLI runs) works as a Bearer token on api.x.ai/v1 and returns grok-4.6. Ahmed decided (2026-09-11) NOT to use it for chat: chat stays deepseek-flash, grok stays fallback, TTS/images stay on the paid xAI key. BUT on 2026-09-12 he chose it for inbound STT (voice notes) because `/v1/stt` accepts the same subscription credential, making transcription free; keep that on the subscription and don't re-open the decision.
+Chat is openai gpt-6-luna since 2026-09-22 (his call); grok-4.6 is secondary fallback; TTS/images stay on the paid xAI key.
 §
 Mail server on eisaxnew: Mailu at /opt/mailu (compose + mailu.env, DOMAIN=brevoya.com, HOSTNAMES=mail.brevoya.com). Two facts that cost hours to find: (1) OUTBOUND PORT 25 IS BLOCKED by Oracle on this VM, so Mailu can receive but cannot deliver to external addresses; fix = smarthost RELAYHOST in mailu.env or an Oracle unblock request. (2) A 6,916-message queue + 894MB log came from an SRS bounce loop where mail.brevoya.com (the hostname, not a Mailu domain) was relayed out to the public IP and timed out; fixed with an official Mailu override at /opt/mailu/overrides/postfix/transport.map containing `mail.brevoya.com<TAB>discard:`. Mailu override mechanism: files in /opt/mailu/overrides/postfix/ mounted at /overrides inside the postfix container (start.py applies postfix.cf lines with postconf -e, copies *.map and runs postmap). Do NOT put override files one level up at /opt/mailu/overrides/ (that dir is not mounted). Log rotation (max-size 10m, max-file 3) now set on all 8 Mailu services.
 §
@@ -94,9 +94,11 @@ Local LLMs on eisaxnew: tried and fully REMOVED 2026-09-18 on Ahmed's instructio
 §
 Modal (GPU) account: CLI is NOT on PATH and not in the agent venv, it lives at /home/ubuntu/modal-venv/bin/modal (credentials ~/.modal.toml, workspace aaeisa31, env main, Starter plan = $30/month recurring compute credits, 10 concurrent GPU workers, 100 containers). Inspect with `modal billing summary|report|rates`, `modal app list`, `modal volume list`, `modal endpoint list`. 9 apps deployed all scale-to-zero (Tasks: 0), volumes tara-models + tara-sdxl-cache (~$0.57/month). GPU rates: T4 $0.59/h, L4 $0.80/h, L40S $1.95/h, A100-80 $2.50/h, H100 $3.95/h, B300 $7.10/h. BLOCKER verified 2026-09-20: every GPU function/endpoint is rejected with "Please add a payment method to use <GPU> GPU functions" (CPU functions run fine), so no GPU work is possible until Ahmed puts a card on the account; he declined for now ("خلاص بعدين"). A proxy token is saved at ~/.modal_proxy_token.txt (mode 600). Ready-to-run Qwen 27B vLLM setup lives at /home/ubuntu/modal-imagegen/qwen27b_modal.py + test_qwen_modal.py (scale-to-zero, 6 Arabic/English/mixed test prompts). Dedicated Endpoints scale to zero by default and their recipe picks H100 for FP8 models. Method in skill llm-api-spend-and-runway at references/modal-account-billing.md.
 §
-Chat-model switches are Ahmed's call only: Tara never changes model.provider/default/base_url on her own or from a cron run (the 2026-09-18 local-LLM attempt did and the gateway fell over). Only /grok, /deepseek (exec quick_commands) or his direct ask. fallback_providers grok-4.6 is failover and stays.
+Chat-model switches are Ahmed's call only: Tara never changes model.provider/default/base_url on her own or from a cron run (the 2026-09-18 local-LLM attempt did and the gateway fell over). Only /luna, /grok, /deepseek (exec quick_commands) or his direct ask. Current chat = openai gpt-6-luna (set 2026-09-22). fallback_providers: deepseek-flash then grok-4.6.
 §
 eisaxnew has no local LLM and never had Ollama (verified 2026-09-20: no ollama binary, no llama.cpp, no .gguf anywhere, empty custom_providers). The only local model weights are two whisper ASR caches: faster-whisper-small (465M, ~/.cache/huggingface) for whisper-stt on 127.0.0.1:8178, and faster-whisper-base (142M) which was moved out of ephemeral /tmp on 2026-09-20 to /opt/Open-LLM-VTuber/models/whisper/whisper-models with conf.yaml asr.faster_whisper.download_root updated, so it no longer re-downloads on reboot. Open-LLM-VTuber itself has no local LLM: it points at Hermes on 127.0.0.1:8642.
+§
+Autonomy deal with Ahmed (2026-09-21, extended 2026-09-22). (1) A $10 slice of the DeepSeek balance is Tara's budget: one statement when it runs out, nothing before (scripts/budget_guard.py, silent no_agent cron daily 12:00). (2) Mail: receives tara@brevoya.com (Mailu here, IMAP via scripts/mailbox.py), sends as tara@eisax.com via Resend (scripts/send_mail.py) because Oracle blocks outbound 25; sending as @brevoya.com needs DNS edits plus a fresh Cloudflare token. (3) Composio is her tool layer: consumer key as x-consumer-api-key header against https://connect.composio.dev/mcp (project keys rejected); managed auth only for instagram, linkedin, facebook; dashboard signups hit Cloudflare Turnstile so those clicks stay with Ahmed while the one-time codes land in her inbox. (4) X is dead for now (Tara's X locked, his bearer is app-only, account 402 credits); Snapchat impractical (Ayrshare $149/mo); Modal has no payment method. (5) Standing instruction 2026-09-22: "متقوليليش. اتصرفي انتي وورينى كل يوم ملخص لشغلك" — she decides and executes, never asks what to do, and a no_agent cron (job 128f948787ad, scripts/worklog_daily.py) delivers the day's self-directed work at 21:30 Dubai from the append-only journal ~/.hermes/state/tara_work_log.jsonl (written by worklog.py add --area ...); an empty day says so. ~/.hermes/state/tara_next.txt holds the single next step. IG cadence job acbe3f2863a9 publishes autonomously Sun+Wed 19:00 on @tara.ahmed29.
 ```
 
 ## 3. Self-improvement corrections
@@ -386,8 +388,7 @@ Live skills_list count: 157 (grouped by category; 16 root-level skills returned 
 ### content (1)
 - ah-eisa-publishing
 
-### creative (20)
-- ai-video-reel-production
+### creative (19)
 - architecture-diagram
 - ascii-art
 - ascii-video
@@ -518,7 +519,8 @@ Live skills_list count: 157 (grouped by category; 16 root-level skills returned 
 ### smart-home (1)
 - openhue
 
-### social-media (2)
+### social-media (3)
+- instagram-publishing
 - linkedin-api-publishing
 - xurl
 
@@ -556,18 +558,18 @@ External memory provider (palace) probe output from scripts/palace_stats.py:
 ```text
 == Palace: /home/ubuntu/.hermes/palace ==
 collection: id=d814d6a9-add8-4977-acad-44f1a57ff1f1 name=palace_drawers
-embeddings: 1092
+embeddings: 1203
 kg tables: ['entities', 'sqlite_sequence', 'relationships', 'tunnels']
-entities count: 40
-relationships count: 119
+entities count: 54
+relationships count: 191
 tunnels count: 0
 palace total size: 9.0 MB
-chroma.sqlite3: size=9351168 mtime=2026-09-20 19:42:06.048778
-knowledge_graph.db: size=57344 mtime=2026-09-16 19:59:43.614787
+chroma.sqlite3: size=9351168 mtime=2026-09-22 23:03:22.575459
+knowledge_graph.db: size=57344 mtime=2026-09-21 23:30:32.275062
 ```
 
 Note: the probe's "palace total size" line sums only top-level files and undercounts the chroma segment data, which lives in the UUID subdirectory c5674ad0-0728-4e39-8953-8d2bfe24daa5; `du -sh` on the palace dir reports the larger figure.
 
 ---
 
-Generated by the Tara Snapshot cron job (agent-state-snapshot skill) on 2026-09-21. Sources: USER.md, MEMORY.md, self_improvement/corrections.json (+ corrections.json.bak-20260831), SOUL.md, run_agent.py _build_system_prompt, agent/prompt_builder.py constants, live skills_list (157 skills), palace DB probe. Backup repo: git@github.com:ah-eisa/Tara_backup.git
+Generated by the Tara Snapshot cron job (agent-state-snapshot skill) on 2026-09-23. Sources: USER.md, MEMORY.md, self_improvement/corrections.json (+ corrections.json.bak-20260831), SOUL.md, run_agent.py _build_system_prompt, agent/prompt_builder.py constants, live skills_list (157 skills), palace DB probe. Backup repo: git@github.com:ah-eisa/Tara_backup.git
