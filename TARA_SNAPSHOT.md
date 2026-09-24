@@ -1,7 +1,7 @@
-# TARA SNAPSHOT - 2026-09-23
+# TARA SNAPSHOT - 2026-09-25
 
 Host: eisaxnew (Linux 6.17.0-1020-oracle), /home/ubuntu/.hermes
-Generated: 2026-09-23 03:01 +0400 (Asia/Dubai, UTC+4)
+Generated: 2026-09-25 03:01 +0400 (Asia/Dubai, UTC+4)
 
 ## 1. USER.md
 
@@ -58,11 +58,7 @@ LinkedIn daily pipeline (since 2026-09-03, retimed 2026-09-17 to sit inside Deep
 §
 ah-eisa.com publishing (wired 2026-09-03): skill content/ah-eisa-publishing runs scripts/publish_article.py which POSTs {title, body, category, excerpt, tags, slug, date, reading_time} to https://ah-eisa.com/api/publish with X-Tara-Secret (env override TARA_PUBLISH_SECRET unset; script has hardcoded default → skill dir is SCANNER-BLOCKED for skill_manage edits until secret moves to env only; route doc updates elsewhere and note it). Server commits each article to github.com/ah-eisa/ah-eisa-site main as "feat(tara): publish article '<title>'". Articles: ENGLISH only, institutional tone, Ahmed Eisa CMA voice injected server-side, one of 8 categories, NEVER em/en dashes (grep-check before publish). Length ≈ 250 wpm: 5 min → 1200-1400 words, 10 min → 2400-2800. --date YYYY-MM-DD backdates (Ahmed commonly asks; renders on live page) and --reading-time added to script 2026-09-03. Verify after publish: curl live URL expect HTTP 200 + grep date/read-time in HTML; git fetch repo, expect feat(tara) commit with correct frontmatter. Do not duplicate existing topics (check content/insights/ first). /insights/ 403 was fixed by origin nginx edit.
 §
-Chat model (Ahmed, 2026-09-22): openai `gpt-6-luna`. Fallback: deepseek-flash then grok-4.6. Switch via /luna /deepseek /grok. gpt-6-luna quirks: max_completion_tokens not max_tokens; temperature only default 1; top_p unsupported. DeepSeek /v1/models still exposes ONLY `deepseek-flash` + `deepseek-v4-pro` (never `deepseek-v4.1-flash`). Tara persona images: grok CLI reference-lock on canonical_ref_REV5.
-§
 New project (Sep 2026): Personal Operations Copilot — documents + appointments/reminders agent Ahmed is building separately, to be linked to me later with its OWN separate memory. Draft code (FastAPI + Streamlit + SQLite, Arabic/English OCR, APScheduler 08:00 daily report + hourly reminders) arrived from an LLM chat with corrupted syntax (`ffuturere__`, `getLognameme__`, tablenameme__`) and missing files — not runnable as-is. My stance (Ahmed has not yet accepted): build clean on eisaxnew under /opt/files-ops with systemd, DeepSeek instead of OpenAI, and prefer a Hermes profile + tool over Streamlit so he can query it from Telegram. Open decisions: who uploads (single user vs multi), and main purpose (personal vault / business docs / appointment engine).
-§
-Chat is openai gpt-6-luna since 2026-09-22 (his call); grok-4.6 is secondary fallback; TTS/images stay on the paid xAI key.
 §
 Mail server on eisaxnew: Mailu at /opt/mailu (compose + mailu.env, DOMAIN=brevoya.com, HOSTNAMES=mail.brevoya.com). Two facts that cost hours to find: (1) OUTBOUND PORT 25 IS BLOCKED by Oracle on this VM, so Mailu can receive but cannot deliver to external addresses; fix = smarthost RELAYHOST in mailu.env or an Oracle unblock request. (2) A 6,916-message queue + 894MB log came from an SRS bounce loop where mail.brevoya.com (the hostname, not a Mailu domain) was relayed out to the public IP and timed out; fixed with an official Mailu override at /opt/mailu/overrides/postfix/transport.map containing `mail.brevoya.com<TAB>discard:`. Mailu override mechanism: files in /opt/mailu/overrides/postfix/ mounted at /overrides inside the postfix container (start.py applies postfix.cf lines with postconf -e, copies *.map and runs postmap). Do NOT put override files one level up at /opt/mailu/overrides/ (that dir is not mounted). Log rotation (max-size 10m, max-file 3) now set on all 8 Mailu services.
 §
@@ -94,11 +90,13 @@ Local LLMs on eisaxnew: tried and fully REMOVED 2026-09-18 on Ahmed's instructio
 §
 Modal (GPU) account: CLI is NOT on PATH and not in the agent venv, it lives at /home/ubuntu/modal-venv/bin/modal (credentials ~/.modal.toml, workspace aaeisa31, env main, Starter plan = $30/month recurring compute credits, 10 concurrent GPU workers, 100 containers). Inspect with `modal billing summary|report|rates`, `modal app list`, `modal volume list`, `modal endpoint list`. 9 apps deployed all scale-to-zero (Tasks: 0), volumes tara-models + tara-sdxl-cache (~$0.57/month). GPU rates: T4 $0.59/h, L4 $0.80/h, L40S $1.95/h, A100-80 $2.50/h, H100 $3.95/h, B300 $7.10/h. BLOCKER verified 2026-09-20: every GPU function/endpoint is rejected with "Please add a payment method to use <GPU> GPU functions" (CPU functions run fine), so no GPU work is possible until Ahmed puts a card on the account; he declined for now ("خلاص بعدين"). A proxy token is saved at ~/.modal_proxy_token.txt (mode 600). Ready-to-run Qwen 27B vLLM setup lives at /home/ubuntu/modal-imagegen/qwen27b_modal.py + test_qwen_modal.py (scale-to-zero, 6 Arabic/English/mixed test prompts). Dedicated Endpoints scale to zero by default and their recipe picks H100 for FP8 models. Method in skill llm-api-spend-and-runway at references/modal-account-billing.md.
 §
-Chat-model switches are Ahmed's call only: Tara never changes model.provider/default/base_url on her own or from a cron run (the 2026-09-18 local-LLM attempt did and the gateway fell over). Only /luna, /grok, /deepseek (exec quick_commands) or his direct ask. Current chat = openai gpt-6-luna (set 2026-09-22). fallback_providers: deepseek-flash then grok-4.6.
+Chat-model switches are Ahmed's call only: Tara never changes model.provider/default/base_url on her own or from a cron run. Only /luna, /grok, /deepseek (exec quick_commands) or his direct ask. Since 2026-09-23: primary = deepseek-flash (deepseek), fallback_providers = deepseek-flash then openai gpt-6-luna; the xai/grok-4.6 fallback was dropped that day along with the paid key. gpt-6-luna quirks: max_completion_tokens not max_tokens, temperature only default 1, top_p unsupported, 200k TPM org limit that bites on long prompts. DeepSeek /v1/models exposes ONLY deepseek-flash + deepseek-v4-pro. /grok now injects a fresh terminal subscription token into providers.xai (valid ~2h, re-run to renew). Persona images: grok CLI reference-lock on canonical_ref_REV5.
 §
 eisaxnew has no local LLM and never had Ollama (verified 2026-09-20: no ollama binary, no llama.cpp, no .gguf anywhere, empty custom_providers). The only local model weights are two whisper ASR caches: faster-whisper-small (465M, ~/.cache/huggingface) for whisper-stt on 127.0.0.1:8178, and faster-whisper-base (142M) which was moved out of ephemeral /tmp on 2026-09-20 to /opt/Open-LLM-VTuber/models/whisper/whisper-models with conf.yaml asr.faster_whisper.download_root updated, so it no longer re-downloads on reboot. Open-LLM-VTuber itself has no local LLM: it points at Hermes on 127.0.0.1:8642.
 §
 Autonomy deal with Ahmed (2026-09-21, extended 2026-09-22). (1) A $10 slice of the DeepSeek balance is Tara's budget: one statement when it runs out, nothing before (scripts/budget_guard.py, silent no_agent cron daily 12:00). (2) Mail: receives tara@brevoya.com (Mailu here, IMAP via scripts/mailbox.py), sends as tara@eisax.com via Resend (scripts/send_mail.py) because Oracle blocks outbound 25; sending as @brevoya.com needs DNS edits plus a fresh Cloudflare token. (3) Composio is her tool layer: consumer key as x-consumer-api-key header against https://connect.composio.dev/mcp (project keys rejected); managed auth only for instagram, linkedin, facebook; dashboard signups hit Cloudflare Turnstile so those clicks stay with Ahmed while the one-time codes land in her inbox. (4) X is dead for now (Tara's X locked, his bearer is app-only, account 402 credits); Snapchat impractical (Ayrshare $149/mo); Modal has no payment method. (5) Standing instruction 2026-09-22: "متقوليليش. اتصرفي انتي وورينى كل يوم ملخص لشغلك" — she decides and executes, never asks what to do, and a no_agent cron (job 128f948787ad, scripts/worklog_daily.py) delivers the day's self-directed work at 21:30 Dubai from the append-only journal ~/.hermes/state/tara_work_log.jsonl (written by worklog.py add --area ...); an empty day says so. ~/.hermes/state/tara_next.txt holds the single next step. IG cadence job acbe3f2863a9 publishes autonomously Sun+Wed 19:00 on @tara.ahmed29.
+§
+Voice, images and STT ride the Grok CLI subscription ("التيرمينال"), NOT the paid xAI API (Ahmed 2026-09-23: "احنا مش بنستخدم ال api. احنا بنستخدم التيرمينال"). The CLI OIDC token in ~/.grok/auth.json (account ah.ku.1985@icloud.com, team 99797faf) is a valid Bearer for /v1/tts, /v1/images/generations (grok-imagine-image, grok-imagine-image-2.0), /v1/stt AND /v1/chat/completions (grok-4.6 returned 200), so none of it needs paid API credit. Shared helper ~/.hermes/scripts/grok_cli_auth.py: cli_token() refreshes via `grok models` under a file lock (3-min margin), api_key() reads the paid key. Consumers: grok_cli_tts.py, tts_with_retry.py, grok_img.py, grok_i2v.py, grok_stt.py, and the patched plugin plugins/image_gen/xai/__init__.py (_subscription_token(), so the image_generate tool rides it too). Hermes TTS = command provider: tts.provider=grok_cli -> tts.providers.grok_cli (type command, output_format ogg, voice eve, timeout 600, max_text_length 20000) running grok_cli_tts.py. Last-resort bridge: edge_tts_fallback.py (Edge ar-EG-SalmaNeural). Retired on Ahmed's instruction ("شيلى جروك Api علشان اللخبطه دى"): the paid xAI key is gone from both Hermes env files (archived 0600 at ~/.hermes/backups/xai_api_key_retired_20260923.txt) and the providers.xai block is deleted from config, so the paid API is out of the picture entirely.
 ```
 
 ## 3. Self-improvement corrections
@@ -558,13 +556,13 @@ External memory provider (palace) probe output from scripts/palace_stats.py:
 ```text
 == Palace: /home/ubuntu/.hermes/palace ==
 collection: id=d814d6a9-add8-4977-acad-44f1a57ff1f1 name=palace_drawers
-embeddings: 1203
+embeddings: 1226
 kg tables: ['entities', 'sqlite_sequence', 'relationships', 'tunnels']
 entities count: 54
 relationships count: 191
 tunnels count: 0
 palace total size: 9.0 MB
-chroma.sqlite3: size=9351168 mtime=2026-09-22 23:03:22.575459
+chroma.sqlite3: size=9351168 mtime=2026-09-23 09:13:11.468236
 knowledge_graph.db: size=57344 mtime=2026-09-21 23:30:32.275062
 ```
 
@@ -572,4 +570,4 @@ Note: the probe's "palace total size" line sums only top-level files and underco
 
 ---
 
-Generated by the Tara Snapshot cron job (agent-state-snapshot skill) on 2026-09-23. Sources: USER.md, MEMORY.md, self_improvement/corrections.json (+ corrections.json.bak-20260831), SOUL.md, run_agent.py _build_system_prompt, agent/prompt_builder.py constants, live skills_list (157 skills), palace DB probe. Backup repo: git@github.com:ah-eisa/Tara_backup.git
+Generated by the Tara Snapshot cron job (agent-state-snapshot skill) on 2026-09-25. Sources: USER.md, MEMORY.md, self_improvement/corrections.json (+ corrections.json.bak-20260831), SOUL.md, run_agent.py _build_system_prompt, agent/prompt_builder.py constants, live skills_list (157 skills), palace DB probe. Backup repo: git@github.com:ah-eisa/Tara_backup.git
