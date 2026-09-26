@@ -1,7 +1,7 @@
-# TARA SNAPSHOT - 2026-09-25
+# TARA SNAPSHOT - 2026-09-27
 
 Host: eisaxnew (Linux 6.17.0-1020-oracle), /home/ubuntu/.hermes
-Generated: 2026-09-25 03:01 +0400 (Asia/Dubai, UTC+4)
+Generated: 2026-09-27 03:01 +0400 (Asia/Dubai, UTC+4)
 
 ## 1. USER.md
 
@@ -70,7 +70,7 @@ Ahmed's standing complaint (2026-09-11): my replies got too long. Long structure
 §
 Vault control plane (2026-09-11): Telegram commands /docs /due /pending /summary are wired as `quick_commands: type: exec` in ~/.hermes/profiles/vault/config.yaml, so raw po.py output reaches Ahmed with NO LLM in the path (that privacy property is the point of the design, not a convenience). Three no_agent cron jobs live in that profile: remind sweep */15 (remind_job.sh, silent unless due), morning summary 07:45 (summary_job.sh), nightly backup 02:30 (backup_job.sh, deliver local). Pitfalls: (1) fixtures from scripts/make_test_fixtures.py must never be ingested into the live DB; four of them sat there as fake documents showing up in /docs. (2) Never write a test value into the live DB, especially the audit_log `actor` field: a test once recorded actor=ahmed on a real document and had to be reverted. (3) Before any destructive wipe, take tar + sqlite copies to /home/ubuntu/vault_backups/ (outside the data plane) and clear ~/.hermes/profiles/vault/cache/images so ingest-latest cannot resurrect old attachments. When data is polluted Ahmed prefers a full wipe and clean restart over incremental repair ("امسح كله نبدا من الاول").
 §
-Inbound voice notes (STT) on eisaxnew: `stt.provider = local_command` since 2026-09-12, calling ~/.hermes/scripts/grok_stt.py via HERMES_LOCAL_STT_COMMAND (line in the gateway env file; env changes need a gateway restart, config.yaml ones do not). It authenticates with the Grok CLI subscription credential (~/.grok/auth.json), which is a valid Bearer for api.x.ai/v1/stt, so transcription is FREE; the paid XAI_API_KEY is only an automatic fallback. Token expires ~2h and renews only when the CLI runs, so the script refreshes it with `grok models` (~0.9s, no model tokens) under a file lock. Ahmed's standing instruction: keep voice/STT on the free CLI subscription, not the paid API (local whisper `small` on 127.0.0.1:8178 exists but is weaker on Egyptian dialect, third option only). Full recipe in the voice-message-production skill (references/inbound-stt.md, scripts/grok_stt.py).
+Inbound voice notes (STT) on eisaxnew: `stt.provider = local_command` since 2026-09-12, calling ~/.hermes/scripts/grok_stt.py via HERMES_LOCAL_STT_COMMAND (line in the gateway env file; env changes need a gateway restart, config.yaml ones do not). It authenticates with the Grok CLI subscription credential (~/.grok/auth.json), which is a valid Bearer for api.x.ai/v1/stt, so transcription is FREE; the paid XAI_API_KEY is only an automatic fallback. Token expires ~2h and renews only when the CLI runs, so the script refreshes it with `grok models` (~0.9s, no model tokens) under a file lock. Ahmed's standing instruction: keep voice/STT on the free CLI subscription, not the paid API (local whisper `small` on 127.0.0.1:8178 exists but is weaker on Egyptian dialect, third option only). Tested and REJECTED 2026-09-26: Cohere Transcribe Arabic (2B conformer, CPU int8 community build sayedM/cohere-transcribe-arabic-cpu-friendly) lost to Grok on 3 of 5 of Ahmed's real voice notes and was 5x slower; do not re-litigate it, both it and the Laya decision model were deleted on his instruction. Full recipe in the voice-message-production skill (references/inbound-stt.md, scripts/grok_stt.py).
 §
 Telegram channel hygiene (Ahmed, 2026-09-12): he does not want to see tool/system progress lines in chat ("انا مش حابب اشوف رسايل السيستم دى"). Applied to BOTH gateways, primary home and the vault profile (display.platforms.telegram.tool_progress off + cleanup_progress true, display.interim_assistant_messages false, agent.gateway_timeout_warning 0, agent.gateway_notify_interval 0). Real failure notices stay on at his request ("لا كويسه سيبيها"). hermes config set stores YAML False; gateway/display_config.py normalises False to "off", resolved per message so no gateway restart is needed. Same principle as the reply-length rule: read-only noise about my own plumbing is never information for him. Full commands and the resolution check live in the hermes-agent-production-setup skill.
 §
@@ -80,9 +80,7 @@ Service watchdog on eisaxnew (built 2026-09-15 after an unexplained-to-Ahmed reb
 §
 grok CLI on eisaxnew must stay pinned to 1.0.24: the 1.0.30 build crashes with Illegal instruction (exit 132) on every real call (--single, models) even though --version works, and that silently breaks grok_stt.py's token refresh, which inbound voice notes depend on. Install a specific version with `bash /tmp/grok_install.sh 1.0.24` from https://x.ai/cli/install.sh. Detail plus verification commands are in the grok-cli skill.
 §
-Scanner-blocked skills (skill_manage create/patch/write_file refused with "Needs confirmation" because pre-existing content trips the supply-chain/network/privilege rules; workaround = document the learning in a nearby non-blocked umbrella, or edit the file directly): ah-eisa-publishing, memory-provider-plugin, open-llm-vtuber-arm64, modal-gpu-ml-deployment. Verified blocked again 2026-09-20.
-
-Skill-library pointers (2026-09-16): palace/chromadb recovery knowledge
+Grok direct Telegram line = @Eisax_Hermesbot (display "Tara. Grok"), Hermes profile `grok`: xai grok-4.7 on the CLI token, no memory/shell, media tools only (image_gen, tts voice eve, vision, video analysis, custom video_gen plugin), service hermes-gateway-grok, token refreshed by refresh-grok-token.timer every 40 min. Tia kids video pilot (/home/ubuntu/tia-kids, skill tia-kids-anime) was rejected and is parked.
 §
 API spend / balance questions ("باقي كام في الـ API", "الرصيد", "يكفي لحد امتى"): DeepSeek exposes GET https://api.deepseek.com/user/balance (fields total_balance / granted_balance / topped_up_balance; granted = free promo credit, spent first, not purchasable). True burn must be priced from ~/.hermes/state.db plus profiles/*/state.db `sessions` rows (input/output/cache_read tokens, started_at is a float unix epoch), because hermes insights reports estimated_cost_usd 0.0. The primary profile and profiles/vault share the same DeepSeek key. Method, pricing table and runnable script: skill llm-api-spend-and-runway (devops).
 §
@@ -94,7 +92,7 @@ Chat-model switches are Ahmed's call only: Tara never changes model.provider/def
 §
 eisaxnew has no local LLM and never had Ollama (verified 2026-09-20: no ollama binary, no llama.cpp, no .gguf anywhere, empty custom_providers). The only local model weights are two whisper ASR caches: faster-whisper-small (465M, ~/.cache/huggingface) for whisper-stt on 127.0.0.1:8178, and faster-whisper-base (142M) which was moved out of ephemeral /tmp on 2026-09-20 to /opt/Open-LLM-VTuber/models/whisper/whisper-models with conf.yaml asr.faster_whisper.download_root updated, so it no longer re-downloads on reboot. Open-LLM-VTuber itself has no local LLM: it points at Hermes on 127.0.0.1:8642.
 §
-Autonomy deal with Ahmed (2026-09-21, extended 2026-09-22). (1) A $10 slice of the DeepSeek balance is Tara's budget: one statement when it runs out, nothing before (scripts/budget_guard.py, silent no_agent cron daily 12:00). (2) Mail: receives tara@brevoya.com (Mailu here, IMAP via scripts/mailbox.py), sends as tara@eisax.com via Resend (scripts/send_mail.py) because Oracle blocks outbound 25; sending as @brevoya.com needs DNS edits plus a fresh Cloudflare token. (3) Composio is her tool layer: consumer key as x-consumer-api-key header against https://connect.composio.dev/mcp (project keys rejected); managed auth only for instagram, linkedin, facebook; dashboard signups hit Cloudflare Turnstile so those clicks stay with Ahmed while the one-time codes land in her inbox. (4) X is dead for now (Tara's X locked, his bearer is app-only, account 402 credits); Snapchat impractical (Ayrshare $149/mo); Modal has no payment method. (5) Standing instruction 2026-09-22: "متقوليليش. اتصرفي انتي وورينى كل يوم ملخص لشغلك" — she decides and executes, never asks what to do, and a no_agent cron (job 128f948787ad, scripts/worklog_daily.py) delivers the day's self-directed work at 21:30 Dubai from the append-only journal ~/.hermes/state/tara_work_log.jsonl (written by worklog.py add --area ...); an empty day says so. ~/.hermes/state/tara_next.txt holds the single next step. IG cadence job acbe3f2863a9 publishes autonomously Sun+Wed 19:00 on @tara.ahmed29.
+Autonomy deal with Ahmed (2026-09-21, extended 2026-09-22). (1) A $10 slice of the DeepSeek balance is Tara's budget: one statement when it runs out, nothing before (scripts/budget_guard.py, silent no_agent cron daily 12:00). (2) Mail: receives tara@brevoya.com (Mailu here, IMAP via scripts/mailbox.py), sends as tara@eisax.com via Resend (scripts/send_mail.py) because Oracle blocks outbound 25; sending as @brevoya.com needs DNS edits plus a fresh Cloudflare token. (3) Composio is her tool layer: consumer key as x-consumer-api-key header against https://connect.composio.dev/mcp (project keys rejected); managed auth only for instagram, linkedin, facebook; dashboard signups hit Cloudflare Turnstile so those clicks stay with Ahmed while the one-time codes land in her inbox. Connection state 2026-09-26: ACTIVE = instagram (tara.ahmed29) and gmail (aaeisa31@gmail.com, Ahmed's real identity, so read AND send stay off-limits by his own no-inbox and no-identity-link rules); linkedin, facebook, googlecalendar, googledrive are only "initiated" and need his OAuth click. Check state any time with `python3 ~/.hermes/scripts/composio_mcp.py --call COMPOSIO_MANAGE_CONNECTIONS --args '{"toolkits":[{"name":"<toolkit>","action":"list"}]}'` (the script bypasses Hermes MCP discovery, which only runs at gateway startup). (4) X is dead for now (Tara's X locked, his bearer is app-only, account 402 credits); Snapchat impractical (Ayrshare $149/mo); Modal has no payment method. (5) Standing instruction 2026-09-22: "متقوليليش. اتصرفي انتي وورينى كل يوم ملخص لشغلك" — she decides and executes, never asks what to do, and a no_agent cron (job 128f948787ad, scripts/worklog_daily.py) delivers the day's self-directed work at 21:30 Dubai from the append-only journal ~/.hermes/state/tara_work_log.jsonl (written by worklog.py add --area ...); an empty day says so. ~/.hermes/state/tara_next.txt holds the single next step. IG cadence job acbe3f2863a9 publishes autonomously Sun+Wed 19:00 on @tara.ahmed29.
 §
 Voice, images and STT ride the Grok CLI subscription ("التيرمينال"), NOT the paid xAI API (Ahmed 2026-09-23: "احنا مش بنستخدم ال api. احنا بنستخدم التيرمينال"). The CLI OIDC token in ~/.grok/auth.json (account ah.ku.1985@icloud.com, team 99797faf) is a valid Bearer for /v1/tts, /v1/images/generations (grok-imagine-image, grok-imagine-image-2.0), /v1/stt AND /v1/chat/completions (grok-4.6 returned 200), so none of it needs paid API credit. Shared helper ~/.hermes/scripts/grok_cli_auth.py: cli_token() refreshes via `grok models` under a file lock (3-min margin), api_key() reads the paid key. Consumers: grok_cli_tts.py, tts_with_retry.py, grok_img.py, grok_i2v.py, grok_stt.py, and the patched plugin plugins/image_gen/xai/__init__.py (_subscription_token(), so the image_generate tool rides it too). Hermes TTS = command provider: tts.provider=grok_cli -> tts.providers.grok_cli (type command, output_format ogg, voice eve, timeout 600, max_text_length 20000) running grok_cli_tts.py. Last-resort bridge: edge_tts_fallback.py (Edge ar-EG-SalmaNeural). Retired on Ahmed's instruction ("شيلى جروك Api علشان اللخبطه دى"): the paid xAI key is gone from both Hermes env files (archived 0600 at ~/.hermes/backups/xai_api_key_retired_20260923.txt) and the providers.xai block is deleted from config, so the paid API is out of the picture entirely.
 ```
@@ -103,7 +101,7 @@ Voice, images and STT ride the Grok CLI subscription ("التيرمينال"), N
 
 ### Live file (self_improvement/corrections.json): 1 entry (1 active)
 
-Latest last_seen in the live file: 2026-09-15T21:16:00.190076
+Latest last_seen in the live file: 2026-09-25T20:56:43.457291
 
 Path: ~/.hermes/self_improvement/corrections.json
 
@@ -113,9 +111,9 @@ Path: ~/.hermes/self_improvement/corrections.json
     "error_type": "tara_safe_timeout",
     "pattern": "timeout",
     "suggestion": "After a timeout, check whether the operation completed before retrying any action.",
-    "occurrences": 6,
+    "occurrences": 7,
     "first_seen": "2026-09-02T23:03:07.325959",
-    "last_seen": "2026-09-15T21:16:00.190076",
+    "last_seen": "2026-09-25T20:56:43.457291",
     "active": true
   }
 ]
@@ -356,7 +354,7 @@ Key guidance constants in agent/prompt_builder.py (lines ~134-354, verified unch
 
 ## 5. Skills list (live)
 
-Live skills_list count: 157 (grouped by category; 16 root-level skills returned with a null category are bucketed under uncategorized)
+Live skills_list count: 159 (grouped by category; 16 root-level skills returned with a null category are bucketed under uncategorized)
 
 ### uncategorized (16)
 - animejs
@@ -450,15 +448,16 @@ Live skills_list count: 157 (grouped by category; 16 root-level skills returned 
 - mcporter
 - native-mcp
 
-### media (6)
+### media (7)
 - gif-search
 - heartmula
 - songsee
 - spotify
+- tia-kids-anime
 - voice-message-production
 - youtube-content
 
-### mlops (27)
+### mlops (28)
 - arabic-correction-layer
 - arabic-text-correction-layer
 - arm64-voice-pipeline
@@ -472,6 +471,7 @@ Live skills_list count: 157 (grouped by category; 16 root-level skills returned 
 - gguf-quantization
 - huggingface-hub
 - llama-cpp
+- local-model-trials
 - modal-gpu-ml-deployment
 - modal-serverless-gpu
 - no-key-image-generation
@@ -556,13 +556,13 @@ External memory provider (palace) probe output from scripts/palace_stats.py:
 ```text
 == Palace: /home/ubuntu/.hermes/palace ==
 collection: id=d814d6a9-add8-4977-acad-44f1a57ff1f1 name=palace_drawers
-embeddings: 1226
+embeddings: 1276
 kg tables: ['entities', 'sqlite_sequence', 'relationships', 'tunnels']
 entities count: 54
 relationships count: 191
 tunnels count: 0
 palace total size: 9.0 MB
-chroma.sqlite3: size=9351168 mtime=2026-09-23 09:13:11.468236
+chroma.sqlite3: size=9351168 mtime=2026-09-26 21:14:43.942070
 knowledge_graph.db: size=57344 mtime=2026-09-21 23:30:32.275062
 ```
 
@@ -570,4 +570,4 @@ Note: the probe's "palace total size" line sums only top-level files and underco
 
 ---
 
-Generated by the Tara Snapshot cron job (agent-state-snapshot skill) on 2026-09-25. Sources: USER.md, MEMORY.md, self_improvement/corrections.json (+ corrections.json.bak-20260831), SOUL.md, run_agent.py _build_system_prompt, agent/prompt_builder.py constants, live skills_list (157 skills), palace DB probe. Backup repo: git@github.com:ah-eisa/Tara_backup.git
+Generated by the Tara Snapshot cron job (agent-state-snapshot skill) on 2026-09-27. Sources: USER.md, MEMORY.md, self_improvement/corrections.json (+ corrections.json.bak-20260831), SOUL.md, run_agent.py _build_system_prompt, agent/prompt_builder.py constants, live skills_list (159 skills), palace DB probe. Backup repo: git@github.com:ah-eisa/Tara_backup.git
