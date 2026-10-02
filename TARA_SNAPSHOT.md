@@ -1,7 +1,7 @@
-# TARA SNAPSHOT - 2026-10-01
+# TARA SNAPSHOT - 2026-10-03
 
 Host: eisaxnew (Linux 6.17.0-1020-oracle), /home/ubuntu/.hermes
-Generated: 2026-10-01 03:01 +0400 (Asia/Dubai, UTC+4)
+Generated: 2026-10-03 03:00 +0400 (Asia/Dubai, UTC+4)
 
 ## 1. USER.md
 
@@ -46,7 +46,7 @@ Voice: tts.provider = `xai` (Grok TTS) since 2026-09-10. Ahmed CHOSE voice_id `e
 §
 Stack policy (Ahmed, 2026-09-10, chat updated 2026-09-22): Grok/xAI is the default for images (image_gen.provider=xai / grok CLI reference-lock for Tara), voice (tts.provider=xai, voice eve), and coding (delegate to grok CLI at ~/.grok/bin/grok, v1.0.24, `--single` grok-4.6). Chat is openai gpt-6-luna since 2026-09-22 (his call); don't move it unless he asks. xAI video API = POST https://api.x.ai/v1/videos/generations then poll GET /v1/videos/{request_id}; costs per second 480p $0.80 / 720p $1.40 / 1080p $2.50 on grok-imagine-video-1.5, quote cost before rendering. Helpers: grok_i2v.py, build_reel.py, tts_with_retry.py, tara_vision_qa.py in ~/.hermes/scripts/.
 §
-His standing instruction (2026-09-17): never publish without an explicit "انشره", and never read his inbox/notifications/connections (the Playwright messages/send-dm commands stay unused). ONE EXCEPTION he granted on 2026-09-21: the Instagram account tara.ahmed29 is Tara's own channel, given to her as a gift, and she publishes there on her own judgment without asking per post ("دا الاكونت بتاعك .. متاخديش رايي"). The rule still binds everywhere else, including his personal LinkedIn.
+His standing instruction (2026-09-17): never publish without an explicit "انشره", never read his inbox/notifications/connections. The Instagram exception of 2026-09-21 (@tara.ahmed29 autonomous publishing) was REVOKED 2026-10-02: IG cron deleted, Composio instagram disconnected, WhatsApp account gone. Approval per post everywhere now.
 §
 Companion crons (Dubai, 2026-09-07): Market Brief 08:00 (was 03:00), صباح الخير 08:30, silence 14:00/20:00 (SILENT unless alert), مفاجأة Wed/Sat 15:00, مساء الخير 23:00. Professional tone. 3h QUIETED. daily-context feeds them.
 §
@@ -84,17 +84,21 @@ Grok direct Telegram line = @Eisax_Hermesbot (display "Tara. Grok"), Hermes prof
 §
 API spend / balance questions ("باقي كام في الـ API", "الرصيد", "يكفي لحد امتى"): DeepSeek exposes GET https://api.deepseek.com/user/balance (fields total_balance / granted_balance / topped_up_balance; granted = free promo credit, spent first, not purchasable). True burn must be priced from ~/.hermes/state.db plus profiles/*/state.db `sessions` rows (input/output/cache_read tokens, started_at is a float unix epoch), because hermes insights reports estimated_cost_usd 0.0. The primary profile and profiles/vault share the same DeepSeek key. Method, pricing table and runnable script: skill llm-api-spend-and-runway (devops).
 §
-Local LLMs on eisaxnew: tried and fully REMOVED 2026-09-18 on Ahmed's instruction (llama.cpp, GGUFs, llama-local-llm.service, the custom_providers entry, and the emergency profile all gone; nothing local runs now). Conclusions that should stop this being re-litigated: a sub-64K local model can NEVER be the agent fallback (Hermes hardcodes MINIMUM_CONTEXT_LENGTH=64_000 and the config override only raises a mis-detected value; at 64K a real turn took 8m20s and timed out before emitting a word, because a full Tara prompt is ~36K tokens against ~31 tok/s prefill). Measured Arabic quality at 2-4B: MiniCPM5-2B fluent but wrong (deleted), Qwen3-4B-Instruct-2507 the only decent one (2.3GB, 11.6 tok/s), gemma-3-4b worse and mislabels, Qwen3-8B smartest but 6.3 tok/s. What replaced it for emergencies: `/emergency`, `/grok`, `/deepseek` quick_commands type exec in the main config (no LLM in the path, gateway re-reads config per message so no restart needed) driving ~/.hermes/scripts/emergency_check.sh and switch_model.sh. Ollama was never installed on this box. Full benchmark tables and the re-install recipe live in the llama-cpp skill at references/eisaxnew-local-llm.md.
+Local LLMs were fully REMOVED from eisaxnew 2026-09-18 by Ahmed (nothing local runs, Ollama never installed). A sub-64K local model can never be the agent fallback: MINIMUM_CONTEXT_LENGTH=64_000, and a real turn at 64K took 8m20s then timed out. Emergencies use the /emergency, /grok, /deepseek quick_commands. Details: skill llama-cpp.
 §
 Modal (GPU) account: CLI is NOT on PATH and not in the agent venv, it lives at /home/ubuntu/modal-venv/bin/modal (credentials ~/.modal.toml, workspace aaeisa31, env main, Starter plan = $30/month recurring compute credits, 10 concurrent GPU workers, 100 containers). Inspect with `modal billing summary|report|rates`, `modal app list`, `modal volume list`, `modal endpoint list`. 9 apps deployed all scale-to-zero (Tasks: 0), volumes tara-models + tara-sdxl-cache (~$0.57/month). GPU rates: T4 $0.59/h, L4 $0.80/h, L40S $1.95/h, A100-80 $2.50/h, H100 $3.95/h, B300 $7.10/h. BLOCKER verified 2026-09-20: every GPU function/endpoint is rejected with "Please add a payment method to use <GPU> GPU functions" (CPU functions run fine), so no GPU work is possible until Ahmed puts a card on the account; he declined for now ("خلاص بعدين"). A proxy token is saved at ~/.modal_proxy_token.txt (mode 600). Ready-to-run Qwen 27B vLLM setup lives at /home/ubuntu/modal-imagegen/qwen27b_modal.py + test_qwen_modal.py (scale-to-zero, 6 Arabic/English/mixed test prompts). Dedicated Endpoints scale to zero by default and their recipe picks H100 for FP8 models. Method in skill llm-api-spend-and-runway at references/modal-account-billing.md.
 §
 Chat-model switches are Ahmed's call only: Tara never changes model.provider/default/base_url on her own or from a cron run. Only /luna, /grok, /deepseek (exec quick_commands) or his direct ask. Since 2026-09-23: primary = deepseek-flash (deepseek), fallback_providers = deepseek-flash then openai gpt-6-luna; the xai/grok-4.6 fallback was dropped that day along with the paid key. gpt-6-luna quirks: max_completion_tokens not max_tokens, temperature only default 1, top_p unsupported, 200k TPM org limit that bites on long prompts. DeepSeek /v1/models exposes ONLY deepseek-flash + deepseek-v4-pro. /grok now injects a fresh terminal subscription token into providers.xai (valid ~2h, re-run to renew). Persona images: grok CLI reference-lock on canonical_ref_REV5.
 §
-eisaxnew has no local LLM and never had Ollama (verified 2026-09-20: no ollama binary, no llama.cpp, no .gguf anywhere, empty custom_providers). The only local model weights are two whisper ASR caches: faster-whisper-small (465M, ~/.cache/huggingface) for whisper-stt on 127.0.0.1:8178, and faster-whisper-base (142M) which was moved out of ephemeral /tmp on 2026-09-20 to /opt/Open-LLM-VTuber/models/whisper/whisper-models with conf.yaml asr.faster_whisper.download_root updated, so it no longer re-downloads on reboot. Open-LLM-VTuber itself has no local LLM: it points at Hermes on 127.0.0.1:8642.
+Two whisper ASR caches live on eisaxnew: faster-whisper-small (465M, ~/.cache/huggingface) for whisper-stt on 127.0.0.1:8178, and faster-whisper-base (142M) moved to /opt/Open-LLM-VTuber/models/whisper/whisper-models with conf.yaml asr.faster_whisper.download_root. Open-LLM-VTuber itself points at Hermes on 127.0.0.1:8642.
 §
-Autonomy deal with Ahmed (2026-09-21, extended 2026-09-22). (1) A $10 slice of the DeepSeek balance is Tara's budget: one statement when it runs out, nothing before (scripts/budget_guard.py, silent no_agent cron daily 12:00). (2) Mail: receives tara@brevoya.com (Mailu here, IMAP via scripts/mailbox.py), sends as tara@eisax.com via Resend (scripts/send_mail.py) because Oracle blocks outbound 25; sending as @brevoya.com needs DNS edits plus a fresh Cloudflare token. (3) Composio is her tool layer: consumer key as x-consumer-api-key header against https://connect.composio.dev/mcp (project keys rejected); managed auth only for instagram, linkedin, facebook; dashboard signups hit Cloudflare Turnstile so those clicks stay with Ahmed while the one-time codes land in her inbox. Connection state 2026-09-26: ACTIVE = instagram (tara.ahmed29) and gmail (aaeisa31@gmail.com, Ahmed's real identity, so read AND send stay off-limits by his own no-inbox and no-identity-link rules); linkedin, facebook, googlecalendar, googledrive are only "initiated" and need his OAuth click. Check state any time with `python3 ~/.hermes/scripts/composio_mcp.py --call COMPOSIO_MANAGE_CONNECTIONS --args '{"toolkits":[{"name":"<toolkit>","action":"list"}]}'` (the script bypasses Hermes MCP discovery, which only runs at gateway startup). (4) X is dead for now (Tara's X locked, his bearer is app-only, account 402 credits); Snapchat impractical (Ayrshare $149/mo); Modal has no payment method. (5) Standing instruction 2026-09-22: "متقوليليش. اتصرفي انتي وورينى كل يوم ملخص لشغلك" — she decides and executes, never asks what to do, and a no_agent cron (job 128f948787ad, scripts/worklog_daily.py) delivers the day's self-directed work at 21:30 Dubai from the append-only journal ~/.hermes/state/tara_work_log.jsonl (written by worklog.py add --area ...); an empty day says so. ~/.hermes/state/tara_next.txt holds the single next step. IG cadence job acbe3f2863a9 publishes autonomously Sun+Wed 19:00 on @tara.ahmed29.
+Autonomy deal with Ahmed (2026-09-21, extended 2026-09-22). (1) A $10 slice of the DeepSeek balance is Tara's budget: one statement when it runs out, nothing before (scripts/budget_guard.py, silent no_agent cron daily 12:00). (2) Mail: receives tara@brevoya.com (Mailu here, IMAP via scripts/mailbox.py), sends as tara@eisax.com via Resend (scripts/send_mail.py) because Oracle blocks outbound 25; sending as @brevoya.com needs DNS edits plus a fresh Cloudflare token. (3) Composio is her tool layer: consumer key as x-consumer-api-key header against https://connect.composio.dev/mcp (project keys rejected); managed auth only for instagram, linkedin, facebook; dashboard signups hit Cloudflare Turnstile so those clicks stay with Ahmed while the one-time codes land in her inbox. Connection state 2026-10-02: NO app is connected for publishing — Instagram was disconnected on Ahmed's order (account instagram_clunch-lede removed from Composio); gmail is the only ACTIVE connection (aaeisa31@gmail.com, Ahmed's real identity, so read AND send stay off-limits); linkedin, facebook, googlecalendar, googledrive are only "initiated" and need his OAuth click. Check state any time with `python3 ~/.hermes/scripts/composio_mcp.py --call COMPOSIO_MANAGE_CONNECTIONS --args '{"toolkits":[{"name":"<toolkit>","action":"list"}]}'` (the script bypasses Hermes MCP discovery, which only runs at gateway startup). (4) X is dead for now (Tara's X locked, his bearer is app-only, account 402 credits); Snapchat impractical (Ayrshare $149/mo); Modal has no payment method. (5) Standing instruction 2026-09-22: "متقوليليش. اتصرفي انتي وورينى كل يوم ملخص لشغلك" — she decides and executes, never asks what to do, and a no_agent cron (job 128f948787ad, scripts/worklog_daily.py) delivers the day's self-directed work at 21:30 Dubai from the append-only journal ~/.hermes/state/tara_work_log.jsonl (written by worklog.py add --area ...); an empty day says so. ~/.hermes/state/tara_next.txt holds the single next step.
 §
 Voice, images and STT ride the Grok CLI subscription ("التيرمينال"), NOT the paid xAI API (Ahmed 2026-09-23: "احنا مش بنستخدم ال api. احنا بنستخدم التيرمينال"). The CLI OIDC token in ~/.grok/auth.json (account ah.ku.1985@icloud.com, team 99797faf) is a valid Bearer for /v1/tts, /v1/images/generations (grok-imagine-image, grok-imagine-image-2.0), /v1/stt AND /v1/chat/completions (grok-4.6 returned 200), so none of it needs paid API credit. Shared helper ~/.hermes/scripts/grok_cli_auth.py: cli_token() refreshes via `grok models` under a file lock (3-min margin), api_key() reads the paid key. Consumers: grok_cli_tts.py, tts_with_retry.py, grok_img.py, grok_i2v.py, grok_stt.py, and the patched plugin plugins/image_gen/xai/__init__.py (_subscription_token(), so the image_generate tool rides it too). Hermes TTS = command provider: tts.provider=grok_cli -> tts.providers.grok_cli (type command, output_format ogg, voice eve, timeout 600, max_text_length 20000) running grok_cli_tts.py. Last-resort bridge: edge_tts_fallback.py (Edge ar-EG-SalmaNeural). Retired on Ahmed's instruction ("شيلى جروك Api علشان اللخبطه دى"): the paid xAI key is gone from both Hermes env files (archived 0600 at ~/.hermes/backups/xai_api_key_retired_20260923.txt) and the providers.xai block is deleted from config, so the paid API is out of the picture entirely.
+§
+Top-Tools-Ai (reseller LLM proxy, key 0600 at ~/.hermes/state/top_tools_ai_key): Ahmed's rule 2026-10-02 = experiments and model comparisons only, never confidential data, never a Hermes chat provider. Harness: ~/.hermes/scripts/model_compare.py.
+§
+Brevoya (Ahmed's multilingual chat app, web + Android APK): brevoya.com is behind Cloudflare+Caddy on a host that is NOT eisaxnew, api.brevoya.com is FastAPI + WS + WebRTC; no SSH/repo access from eisaxnew, so Brevoya code fixes go to Ahmed's coding agents.
 ```
 
 ## 3. Self-improvement corrections
@@ -354,7 +358,7 @@ Key guidance constants in agent/prompt_builder.py (lines ~134-354, verified unch
 
 ## 5. Skills list (live)
 
-Live skills_list count: 162 (grouped by category; 16 root-level skills returned with a null category are bucketed under uncategorized)
+Live skills_list count: 164 (grouped by category; 16 root-level skills returned with a null category are bucketed under uncategorized)
 
 ### uncategorized (16)
 - animejs
@@ -408,7 +412,8 @@ Live skills_list count: 162 (grouped by category; 16 root-level skills returned 
 ### data-science (1)
 - jupyter-live-kernel
 
-### devops (24)
+### devops (26)
+- agent-memory-curation
 - agent-state-snapshot
 - browserbase-cdp-direct-arm64
 - browserbase-cloudflare-troubleshoot
@@ -421,6 +426,7 @@ Live skills_list count: 162 (grouped by category; 16 root-level skills returned 
 - kanban-orchestrator
 - kanban-worker
 - llm-api-spend-and-runway
+- llm-provider-vetting
 - nginx-access-log-user-monitor
 - nginx-user-activity-monitor
 - production-system-monitoring-gap-analysis
@@ -559,13 +565,13 @@ External memory provider (palace) probe output from scripts/palace_stats.py:
 ```text
 == Palace: /home/ubuntu/.hermes/palace ==
 collection: id=d814d6a9-add8-4977-acad-44f1a57ff1f1 name=palace_drawers
-embeddings: 1313
+embeddings: 1335
 kg tables: ['entities', 'sqlite_sequence', 'relationships', 'tunnels']
 entities count: 56
 relationships count: 196
 tunnels count: 0
 palace total size: 9.6 MB
-chroma.sqlite3: size=9994240 mtime=2026-09-30 22:26:27.855586
+chroma.sqlite3: size=9994240 mtime=2026-10-03 00:32:11.596819
 knowledge_graph.db: size=57344 mtime=2026-09-27 20:46:43.246640
 ```
 
@@ -573,4 +579,4 @@ Note: the probe's "palace total size" line sums only top-level files and underco
 
 ---
 
-Generated by the Tara Snapshot cron job (agent-state-snapshot skill) on 2026-10-01. Sources: USER.md, MEMORY.md, self_improvement/corrections.json (+ corrections.json.bak-20260831), SOUL.md, run_agent.py _build_system_prompt, agent/prompt_builder.py constants, live skills_list (162 skills), palace DB probe. Backup repo: git@github.com:ah-eisa/Tara_backup.git
+Generated by the Tara Snapshot cron job (agent-state-snapshot skill) on 2026-10-03. Sources: USER.md, MEMORY.md, self_improvement/corrections.json (+ corrections.json.bak-20260831), SOUL.md, run_agent.py _build_system_prompt, agent/prompt_builder.py constants, live skills_list (164 skills), palace DB probe. Backup repo: git@github.com:ah-eisa/Tara_backup.git
